@@ -1,6 +1,7 @@
 import Display from "@/components/Display";
 import Keypad from "@/components/Keypad";
 import { View } from "react-native";
+import ContextProvider from "./context";
 
 export default function Index() {
   return (
@@ -10,8 +11,10 @@ export default function Index() {
         justifyContent: "center",
       }}
     >
-      <Display />
-      <Keypad />
+      <ContextProvider>
+        <Display />
+        <Keypad />
+      </ContextProvider>
     </View>
   );
 }
