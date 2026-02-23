@@ -5,20 +5,21 @@ import {
 } from "react";
 
 export interface AppContextType {
-  displayText: string;
-  setDisplayText: React.Dispatch<React.SetStateAction<string>>;
+  inputList: Array<string>;
+  setInputList: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export const AppContext = createContext<AppContextType>({
-  displayText: "",
-  setDisplayText: () => {},
+  inputList: [],
+  setInputList: () => {},
 });
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-  const [displayText, setDisplayText] = useState("");
+  const [inputList, setInputList] = useState<AppContextType["inputList"]>([]);
+
   const values = {
-    displayText,
-    setDisplayText,
+    inputList,
+    setInputList,
   } satisfies AppContextType;
 
   return (

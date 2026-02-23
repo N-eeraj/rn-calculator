@@ -7,8 +7,9 @@ import {
 
 export default function Display() {
   const {
-    displayText,
+    inputList,
   } = use(AppContext);
+  console.log(inputList)
 
   return (
     <View
@@ -24,7 +25,7 @@ export default function Display() {
         style={{
           fontSize: 32,
         }}>
-        {displayText || "0"}
+        {inputList.join("") || "0"}
       </Text>
     </View>
   );

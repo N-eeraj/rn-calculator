@@ -3,14 +3,52 @@ import Button from "@/components/Keypad/Button";
 import { use } from "react";
 import { View } from "react-native";
 
+function splitLastInput(inputList: Array<string>) {
+  const inputListCopy = [...inputList];
+  const lastValue = inputListCopy.pop();
+  return {
+    lastValue,
+    remainingItems: inputListCopy,
+    isLastValueNonNumeric: isNaN(lastValue as unknown as number),
+  }
+}
+
 export default function Keypad() {
   const {
-    setDisplayText,
+    setInputList,
   } = use(AppContext);
 
-  const handleValuePress = (key: string) => setDisplayText(prev => prev + key);
-  const handleDeletePress = () => setDisplayText(prev => prev.slice(0, -1));
-  const handleClearDisplay = () => setDisplayText("");
+  const handleValuePress = (key: string) => setInputList((prev) => {
+    if (!prev.length) return [key];
+
+    const {
+      lastValue,
+      isLastValueNonNumeric,
+      remainingItems,
+    } = splitLastInput(prev);
+    if (isLastValueNonNumeric) {
+      return [...remainingItems, lastValue!, key];
+    }
+
+    return [...remainingItems, Number(lastValue + key).toString()];
+  });
+
+  const handleOperatorPress = (operator: string) => setInputList((prev) => [...prev, operator]);
+
+  const handleClearDisplay = () => setInputList([]);
+
+  const handleDeletePress = () => setInputList(prev => {
+    const {
+      lastValue,
+      isLastValueNonNumeric,
+      remainingItems,
+    } = splitLastInput(prev);
+
+    if (isLastValueNonNumeric || lastValue?.length === 1) {
+      return [...remainingItems]
+    }
+    return [...remainingItems, lastValue!.slice(0, -1)]
+  });
 
   return (
     <View
@@ -41,7 +79,8 @@ export default function Keypad() {
           color="#3cf" />
         <Button
           title="÷"
-          color="#3cf" />
+          color="#3cf"
+          onPress={() => handleOperatorPress("÷")} />
       </View>
 
       <View
@@ -62,7 +101,8 @@ export default function Keypad() {
           onPress={() => handleValuePress("9")} />
         <Button
           title="×"
-          color="#3cf" />
+          color="#3cf"
+          onPress={() => handleOperatorPress("×")} />
       </View>
 
       <View
@@ -83,7 +123,8 @@ export default function Keypad() {
           onPress={() => handleValuePress("6")} />
         <Button
           title="-"
-          color="#3cf" />
+          color="#3cf"
+          onPress={() => handleOperatorPress("-")} />
       </View>
 
       <View
@@ -104,7 +145,8 @@ export default function Keypad() {
           onPress={() => handleValuePress("3")} />
         <Button
           title="+"
-          color="#3cf" />
+          color="#3cf"
+          onPress={() => handleOperatorPress("+")} />
       </View>
 
       <View
@@ -120,8 +162,7 @@ export default function Keypad() {
           title="0"
           onPress={() => handleValuePress("0")} />
         <Button
-          title="."
-          onPress={() => handleValuePress(".")} />
+          title="." />
         <Button
           title="="
           color="white"
