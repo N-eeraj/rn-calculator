@@ -8,8 +8,10 @@ import {
 export default function Display() {
   const {
     inputList,
+    result,
+    hasResult,
   } = use(AppContext);
-  console.log(inputList)
+  console.log(inputList);
 
   return (
     <View
@@ -23,10 +25,19 @@ export default function Display() {
       }}>
       <Text
         style={{
-          fontSize: 32,
+          fontSize: hasResult ? 24 : 32,
+          transitionDuration: "300ms",
         }}>
         {inputList.join("") || "0"}
       </Text>
+      {hasResult && (
+        <Text
+          style={{
+            fontSize: 48,
+          }}>
+          =&nbsp;{result}
+        </Text>
+      )}
     </View>
   );
 }

@@ -15,7 +15,10 @@ function splitLastInput(inputList: Array<string>) {
 
 export default function Keypad() {
   const {
+    inputList,
     setInputList,
+    setResult,
+    evaluateInput,
   } = use(AppContext);
 
   const handleValuePress = (key: string) => setInputList((prev) => {
@@ -33,9 +36,27 @@ export default function Keypad() {
     return [...remainingItems, Number(lastValue + key).toString()];
   });
 
-  const handleOperatorPress = (operator: string) => setInputList((prev) => [...prev, operator]);
+  const handleOperatorPress = (operator: string) => {
+    const {
+      lastValue,
+      isLastValueNonNumeric,
+      remainingItems,
+    } = splitLastInput(inputList);
+    if (!lastValue) return;
+    if (isLastValueNonNumeric) {
+      setInputList([
+        ...remainingItems,
+        operator,
+      ]);
+    } else {
+      setInputList((prev) => [...prev, operator]);
+    }
+  };
 
-  const handleClearDisplay = () => setInputList([]);
+  const handleClearDisplay = () => {
+    setInputList([]);
+    setResult(null);
+  };
 
   const handleDeletePress = () => setInputList(prev => {
     const {
@@ -49,6 +70,28 @@ export default function Keypad() {
     }
     return [...remainingItems, lastValue!.slice(0, -1)]
   });
+
+  const handlePercentagePress = () => {
+    const {
+      lastValue,
+      remainingItems,
+      isLastValueNonNumeric,
+    } = splitLastInput(inputList);
+    if (!isLastValueNonNumeric) {
+      setInputList([
+        ...remainingItems,
+        (Number(lastValue) / 100).toString(),
+      ]);
+    }
+  };
+
+  const handleEquatePress = () => {
+    const {
+      isLastValueNonNumeric,
+    } = splitLastInput(inputList);
+    if (isLastValueNonNumeric) return;
+    evaluateInput();
+  }
 
   return (
     <View
@@ -76,7 +119,8 @@ export default function Keypad() {
           onPress={handleDeletePress} />
         <Button
           title="%"
-          color="#3cf" />
+          color="#3cf"
+          onPress={handlePercentagePress} />
         <Button
           title="÷"
           color="#3cf"
@@ -166,7 +210,8 @@ export default function Keypad() {
         <Button
           title="="
           color="white"
-          backgroundColor="#3cf" />
+          backgroundColor="#3cf"
+          onPress={handleEquatePress} />
       </View>
     </View>
   );
