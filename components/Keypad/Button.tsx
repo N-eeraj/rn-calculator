@@ -1,22 +1,38 @@
 import {
   Pressable,
-  PressableProps,
-  Text
+  Text,
+  type PressableProps,
 } from "react-native";
+
+export type ButtonVariant = "text" | "tinted" | "solid";
 
 interface Props {
   title: string;
-  color?: string;
-  backgroundColor?: string;
+  variant?: ButtonVariant;
   onPress?: PressableProps["onPress"];
 }
 
 export default function KeypadButton({
   title,
-  color = "white",
-  backgroundColor = "transparent",
+  variant = "text",
   onPress,
 }: Props) {
+  let color, backgroundColor;
+  switch(variant) {
+    case "text":
+      color = "white";
+      backgroundColor = "transparent";
+      break;
+    case "tinted":
+      color = "#0af";
+      backgroundColor = "transparent";
+      break;
+    case "solid":
+      color = "white";
+      backgroundColor = "#0af";
+      break;
+  }
+
   return (
     <Pressable
       style={{

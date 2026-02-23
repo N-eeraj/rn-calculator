@@ -1,97 +1,16 @@
-import { AppContext } from "@/app/context";
 import Button from "@/components/Keypad/Button";
-import { use } from "react";
+import useKeypadButtons from "@/hooks/useKeypadButtons";
 import { View } from "react-native";
-
-function splitLastInput(inputList: Array<string>) {
-  const inputListCopy = [...inputList];
-  const lastValue = inputListCopy.pop();
-  return {
-    lastValue,
-    remainingItems: inputListCopy,
-    isLastValueNonNumeric: isNaN(lastValue as unknown as number),
-  }
-}
 
 export default function Keypad() {
   const {
-    inputList,
-    setInputList,
-    setResult,
-    evaluateInput,
-  } = use(AppContext);
-
-  const handleValuePress = (key: string) => setInputList((prev) => {
-    if (!prev.length) return [key];
-
-    const {
-      lastValue,
-      isLastValueNonNumeric,
-      remainingItems,
-    } = splitLastInput(prev);
-    if (isLastValueNonNumeric) {
-      return [...remainingItems, lastValue!, key];
-    }
-
-    return [...remainingItems, Number(lastValue + key).toString()];
-  });
-
-  const handleOperatorPress = (operator: string) => {
-    const {
-      lastValue,
-      isLastValueNonNumeric,
-      remainingItems,
-    } = splitLastInput(inputList);
-    if (!lastValue) return;
-    if (isLastValueNonNumeric) {
-      setInputList([
-        ...remainingItems,
-        operator,
-      ]);
-    } else {
-      setInputList((prev) => [...prev, operator]);
-    }
-  };
-
-  const handleClearDisplay = () => {
-    setInputList([]);
-    setResult(null);
-  };
-
-  const handleDeletePress = () => setInputList(prev => {
-    const {
-      lastValue,
-      isLastValueNonNumeric,
-      remainingItems,
-    } = splitLastInput(prev);
-
-    if (isLastValueNonNumeric || lastValue?.length === 1) {
-      return [...remainingItems]
-    }
-    return [...remainingItems, lastValue!.slice(0, -1)]
-  });
-
-  const handlePercentagePress = () => {
-    const {
-      lastValue,
-      remainingItems,
-      isLastValueNonNumeric,
-    } = splitLastInput(inputList);
-    if (!isLastValueNonNumeric) {
-      setInputList([
-        ...remainingItems,
-        (Number(lastValue) / 100).toString(),
-      ]);
-    }
-  };
-
-  const handleEquatePress = () => {
-    const {
-      isLastValueNonNumeric,
-    } = splitLastInput(inputList);
-    if (isLastValueNonNumeric) return;
-    evaluateInput();
-  }
+    handleValuePress,
+    handleOperatorPress,
+    handleDeletePress,
+    handleClearDisplay,
+    handlePercentagePress,
+    handleEquatePress,
+  } = useKeypadButtons();
 
   return (
     <View
@@ -111,19 +30,19 @@ export default function Keypad() {
         }}>
         <Button
           title="C"
-          color="#3cf"
+          variant="tinted"
           onPress={handleClearDisplay} />
         <Button
           title="⌫"
-          color="#3cf"
+          variant="tinted"
           onPress={handleDeletePress} />
         <Button
           title="%"
-          color="#3cf"
+          variant="tinted"
           onPress={handlePercentagePress} />
         <Button
           title="÷"
-          color="#3cf"
+          variant="tinted"
           onPress={() => handleOperatorPress("÷")} />
       </View>
 
@@ -145,7 +64,7 @@ export default function Keypad() {
           onPress={() => handleValuePress("9")} />
         <Button
           title="×"
-          color="#3cf"
+          variant="tinted"
           onPress={() => handleOperatorPress("×")} />
       </View>
 
@@ -167,7 +86,7 @@ export default function Keypad() {
           onPress={() => handleValuePress("6")} />
         <Button
           title="-"
-          color="#3cf"
+          variant="tinted"
           onPress={() => handleOperatorPress("-")} />
       </View>
 
@@ -189,7 +108,7 @@ export default function Keypad() {
           onPress={() => handleValuePress("3")} />
         <Button
           title="+"
-          color="#3cf"
+          variant="tinted"
           onPress={() => handleOperatorPress("+")} />
       </View>
 
@@ -209,8 +128,7 @@ export default function Keypad() {
           title="." />
         <Button
           title="="
-          color="white"
-          backgroundColor="#3cf"
+          variant="solid"
           onPress={handleEquatePress} />
       </View>
     </View>
