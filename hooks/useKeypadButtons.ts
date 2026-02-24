@@ -50,11 +50,16 @@ export default function useKeypadButtons() {
         ];
       }
 
-      // append key to last input
-      return [
-        ...remainingItems,
-        Number(lastValue + key).toString(),
-      ];
+      // append key to last input upto 15 digit number
+      if (lastValue && lastValue?.length < 15) {
+        return [
+          ...remainingItems,
+          Number(lastValue + key).toString(),
+        ];
+      }
+
+      // return unchanged value
+      return prev;
     });
   };
 

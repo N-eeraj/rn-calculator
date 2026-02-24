@@ -4,6 +4,7 @@ import {
   Text,
   View,
 } from "react-native";
+import Input from "./Input";
 
 export default function Display() {
   const {
@@ -23,19 +24,31 @@ export default function Display() {
         padding: 12,
         backgroundColor: "#111",
       }}>
-      <Text
+      <View
         style={{
-          fontSize: hasResult ? 24 : 32,
-          transitionDuration: "300ms",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          flexWrap: "wrap",
+          columnGap: 4,
         }}>
-        {inputList.join("") || "0"}
-      </Text>
+        {inputList.length ? (
+          inputList.map((input, index) => (
+            <Input
+              key={index}
+              value={input} />
+          ))
+        ) : (
+          <Input value="0" />
+        )}
+      </View>
       {hasResult && (
         <Text
           style={{
             fontSize: 48,
+            color: "white",
           }}>
-          =&nbsp;{result}
+          =&nbsp;{Intl.NumberFormat().format(result as number)}
         </Text>
       )}
     </View>
