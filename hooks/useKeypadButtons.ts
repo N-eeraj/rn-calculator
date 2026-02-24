@@ -4,10 +4,12 @@ import { use } from "react";
 function splitLastInput(inputList: Array<string>) {
   const inputListCopy = [...inputList];
   const lastValue = inputListCopy.pop();
+
   return {
     lastValue,
     remainingItems: inputListCopy,
     isLastValueNonNumeric: isNaN(lastValue as unknown as number),
+    lastValueHasDecimal: lastValue?.includes("."),
   };
 }
 
@@ -39,6 +41,7 @@ export default function useKeypadButtons() {
         lastValue,
         isLastValueNonNumeric,
         remainingItems,
+        lastValueHasDecimal,
       } = splitLastInput(prev);
 
       // set key as new input
@@ -50,11 +53,12 @@ export default function useKeypadButtons() {
         ];
       }
 
-      // append key to last input upto 15 digit number
-      if (lastValue && lastValue?.length < 15) {
+      // append key to last input upto 15 digit integer/fraction
+      const [integer, fraction] = (lastValue ?? "").split(".");
+      if ((lastValueHasDecimal ? fraction.length : integer.length) < 15) {
         return [
           ...remainingItems,
-          Number(lastValue + key).toString(),
+          lastValue == "0" ? Number(lastValue + key).toString() : `${lastValue}${key}`,
         ];
       }
 
@@ -98,6 +102,43 @@ export default function useKeypadButtons() {
     }
   };
 
+  const handleDecimalPress = () => {
+    // reset result and and set 0. as input
+    if (hasResult) {
+      setInputList(["0."]);
+      setResult(null);
+      return;
+    };
+
+    const {
+      lastValue,
+      isLastValueNonNumeric,
+      remainingItems,
+    } = splitLastInput(inputList);
+
+    // set 0. as input
+    if (!lastValue) {
+      setInputList(["0."]);
+      return;
+    }
+
+    setInputList(() => {
+      // add 0. after operator
+      if (isLastValueNonNumeric) {
+        return [
+          ...remainingItems,
+          lastValue,
+          "0.",
+        ];
+      }
+      // add . after current input
+      return [
+        ...remainingItems,
+        `${lastValue}.`,
+      ]
+    })
+  };
+
   const handleClearDisplay = () => {
     setInputList([]);
     setResult(null);
@@ -107,7 +148,7 @@ export default function useKeypadButtons() {
     // prevent delete when result exists
     if (hasResult) return;
 
-    setInputList(prev => {
+    setInputList((prev) => {
       const {
         lastValue,
         isLastValueNonNumeric,
@@ -166,6 +207,7 @@ export default function useKeypadButtons() {
   return {
     handleValuePress,
     handleOperatorPress,
+    handleDecimalPress,
     handleDeletePress,
     handleClearDisplay,
     handlePercentagePress,

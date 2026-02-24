@@ -1,4 +1,4 @@
-import Button from "@/components/Keypad/Button";
+import Button, { ButtonVariant } from "@/components/Keypad/Button";
 import useKeypadButtons from "@/hooks/useKeypadButtons";
 import { View } from "react-native";
 
@@ -6,11 +6,45 @@ export default function Keypad() {
   const {
     handleValuePress,
     handleOperatorPress,
+    handleDecimalPress,
     handleDeletePress,
     handleClearDisplay,
     handlePercentagePress,
     handleEquatePress,
   } = useKeypadButtons();
+
+  const KEYS = [
+    [
+      { title: "C", variant: ButtonVariant.TINTED, onPress: handleClearDisplay },
+      { title: "⌫", variant: ButtonVariant.TINTED, onPress: handleDeletePress },
+      { title: "%", variant: ButtonVariant.TINTED, onPress: handlePercentagePress },
+      { title: "÷", variant: ButtonVariant.TINTED, onPress: () => handleOperatorPress("÷") },
+    ],
+    [
+      { title: "7", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("7") },
+      { title: "8", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("8") },
+      { title: "9", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("9") },
+      { title: "×", variant: ButtonVariant.TINTED, onPress: () => handleOperatorPress("×") },
+    ],
+    [
+      { title: "4", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("4") },
+      { title: "5", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("5") },
+      { title: "6", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("6") },
+      { title: "-", variant: ButtonVariant.TINTED, onPress: () => handleOperatorPress("-") },
+    ],
+    [
+      { title: "1", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("1") },
+      { title: "2", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("2") },
+      { title: "3", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("3") },
+      { title: "+", variant: ButtonVariant.TINTED, onPress: () => handleOperatorPress("+") },
+    ],
+    [
+      undefined,
+      { title: "0", variant: ButtonVariant.TEXT, onPress: () => handleValuePress("0") },
+      { title: ".", variant: ButtonVariant.TEXT, onPress: handleDecimalPress },
+      { title: "=", variant: ButtonVariant.SOLID, onPress: handleEquatePress },
+    ],
+  ] as const;
 
   return (
     <View
@@ -20,117 +54,28 @@ export default function Keypad() {
         gap: 4,
         backgroundColor: "#171717",
       }}>
-      
-      <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          columnGap: 12,
-        }}>
-        <Button
-          title="C"
-          variant="tinted"
-          onPress={handleClearDisplay} />
-        <Button
-          title="⌫"
-          variant="tinted"
-          onPress={handleDeletePress} />
-        <Button
-          title="%"
-          variant="tinted"
-          onPress={handlePercentagePress} />
-        <Button
-          title="÷"
-          variant="tinted"
-          onPress={() => handleOperatorPress("÷")} />
-      </View>
 
-      <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          columnGap: 12,
-        }}>
-        <Button
-          title="7"
-          onPress={() => handleValuePress("7")} />
-        <Button
-          title="8"
-          onPress={() => handleValuePress("8")} />
-        <Button
-          title="9"
-          onPress={() => handleValuePress("9")} />
-        <Button
-          title="×"
-          variant="tinted"
-          onPress={() => handleOperatorPress("×")} />
-      </View>
-
-      <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          columnGap: 12,
-        }}>
-        <Button
-          title="4"
-          onPress={() => handleValuePress("4")} />
-        <Button
-          title="5"
-          onPress={() => handleValuePress("5")} />
-        <Button
-          title="6"
-          onPress={() => handleValuePress("6")} />
-        <Button
-          title="-"
-          variant="tinted"
-          onPress={() => handleOperatorPress("-")} />
-      </View>
-
-      <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          columnGap: 12,
-        }}>
-        <Button
-          title="1"
-          onPress={() => handleValuePress("1")} />
-        <Button
-          title="2"
-          onPress={() => handleValuePress("2")} />
-        <Button
-          title="3"
-          onPress={() => handleValuePress("3")} />
-        <Button
-          title="+"
-          variant="tinted"
-          onPress={() => handleOperatorPress("+")} />
-      </View>
-
-      <View
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          columnGap: 12,
-        }}>
-        <View style={{ flex: 1 }} />
-        <Button
-          title="0"
-          onPress={() => handleValuePress("0")} />
-        <Button
-          title="." />
-        <Button
-          title="="
-          variant="solid"
-          onPress={handleEquatePress} />
-      </View>
+      {KEYS.map((keys, rowIndex) => (
+        <View
+          key={rowIndex}
+          style={{
+            display: "flex",
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            columnGap: 12,
+          }}>
+          {keys.map((key, columnIndex) => (
+            key
+            ?  <Button
+                key={`${rowIndex}.${columnIndex}`}
+                {...key} />
+            : <View
+                key={`${rowIndex}.${columnIndex}`}
+                style={{ flex: 1 }} />
+          ))}
+        </View>
+      ))}
     </View>
   );
 }

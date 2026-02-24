@@ -4,7 +4,11 @@ import {
   type PressableProps,
 } from "react-native";
 
-export type ButtonVariant = "text" | "tinted" | "solid";
+export enum ButtonVariant {
+  TEXT = "text",
+  TINTED = "tinted",
+  SOLID = "solid"
+};
 
 interface Props {
   title: string;
@@ -12,27 +16,29 @@ interface Props {
   onPress?: PressableProps["onPress"];
 }
 
+const VARIANT_STYLES = {
+  [ButtonVariant.TEXT]: {
+    color: "white",
+    backgroundColor: "transparent",
+    androidRippleColor: "#0af1",
+  },
+  [ButtonVariant.TINTED]: {
+    color: "#0af",
+    backgroundColor: "transparent",
+    androidRippleColor: "#0af1",
+  },
+  [ButtonVariant.SOLID]: {
+    color: "white",
+    backgroundColor: "#0af",
+    androidRippleColor: "#fff3",
+  },
+} as const;
+
 export default function KeypadButton({
   title,
-  variant = "text",
+  variant = ButtonVariant.TEXT,
   onPress,
 }: Props) {
-  let color, backgroundColor;
-  switch(variant) {
-    case "text":
-      color = "white";
-      backgroundColor = "transparent";
-      break;
-    case "tinted":
-      color = "#0af";
-      backgroundColor = "transparent";
-      break;
-    case "solid":
-      color = "white";
-      backgroundColor = "#0af";
-      break;
-  }
-
   return (
     <Pressable
       style={{
@@ -40,14 +46,19 @@ export default function KeypadButton({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor,
+        backgroundColor: VARIANT_STYLES[variant].backgroundColor,
         borderRadius: 12,
+        overflow: "hidden",
+      }}
+      android_ripple={{
+        color: VARIANT_STYLES[variant].androidRippleColor,
+        foreground: true,
       }}
       onPress={(event) => onPress?.(event)}>
       <Text
         style={{
           padding: 12,
-          color,
+          color: VARIANT_STYLES[variant].color,
           fontSize: 28,
           textAlign: "center",
         }}>
