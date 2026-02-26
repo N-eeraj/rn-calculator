@@ -1,5 +1,5 @@
-import Button, { ButtonVariant } from "@/components/Keypad/Button";
-import useKeypadButtons from "@/hooks/useKeypadButtons";
+import Button, { ButtonVariant } from "@components/Calculator/Keypad/Button";
+import useKeypadButtons from "@hooks/useKeypadButtons";
 import { View } from "react-native";
 
 export default function Keypad() {

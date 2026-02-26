@@ -4,7 +4,7 @@ import {
   type PropsWithChildren,
 } from "react";
 
-export interface AppContextType {
+export interface CalculatorContextType {
   inputList: Array<string>;
   result: number | null;
   hasResult: boolean;
@@ -13,7 +13,7 @@ export interface AppContextType {
   evaluateInput: () => void;
 }
 
-export const AppContext = createContext<AppContextType>({
+export const CalculatorContext = createContext<CalculatorContextType>({
   inputList: [],
   result: null,
   hasResult: false,
@@ -23,8 +23,8 @@ export const AppContext = createContext<AppContextType>({
 });
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-  const [inputList, setInputList] = useState<AppContextType["inputList"]>([]);
-  const [result, setResult] = useState<AppContextType["result"]>(null);
+  const [inputList, setInputList] = useState<CalculatorContextType["inputList"]>([]);
+  const [result, setResult] = useState<CalculatorContextType["result"]>(null);
 
   const evaluateInput = () => {
     if (!inputList.length) return;
@@ -47,11 +47,11 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     setInputList,
     setResult,
     evaluateInput,
-  } satisfies AppContextType;
+  } satisfies CalculatorContextType;
 
   return (
-    <AppContext value={values}>
+    <CalculatorContext value={values}>
       {children}
-    </AppContext>
+    </CalculatorContext>
   );
 }

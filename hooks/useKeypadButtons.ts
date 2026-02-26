@@ -1,4 +1,4 @@
-import { AppContext } from "@/app/context";
+import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
 
 function splitLastInput(inputList: Array<string>) {
@@ -23,7 +23,7 @@ export default function useKeypadButtons() {
     setInputList,
     setResult,
     evaluateInput,
-  } = use(AppContext);
+  } = use(CalculatorContext);
 
   const handleValuePress = (key: string) => {
     // reset result and and set key as input

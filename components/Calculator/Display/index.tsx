@@ -1,17 +1,14 @@
-import { AppContext } from "@/app/context";
+import Input from "@components/Calculator/Display/Input";
+import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
-import {
-  Text,
-  View,
-} from "react-native";
-import Input from "./Input";
+import { Text, View } from "react-native";
 
 export default function Display() {
   const {
     inputList,
     result,
     hasResult,
-  } = use(AppContext);
+  } = use(CalculatorContext);
   console.log(inputList);
 
   return (

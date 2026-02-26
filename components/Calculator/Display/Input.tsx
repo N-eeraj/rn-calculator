@@ -1,4 +1,4 @@
-import { AppContext } from "@/app/context";
+import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
 import { Text } from "react-native";
 
@@ -9,7 +9,7 @@ interface Props {
 export default function Input({ value }: Props) {
   const {
     hasResult,
-  } = use(AppContext);
+  } = use(CalculatorContext);
 
   return (
     <Text

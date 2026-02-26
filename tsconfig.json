@@ -4,8 +4,20 @@
     "strict": true,
     "paths": {
       "@/*": [
-        "./*"
-      ]
+        "./*",
+      ],
+      "@app/*": [
+        "./app/*",
+      ],
+      "@components/*": [
+        "./components/*",
+      ],
+      "@hooks/*": [
+        "./hooks/*",
+      ],
+      "@contexts/*": [
+        "./contexts/*",
+      ],
     }
   },
   "include": [
