@@ -1,14 +1,19 @@
 import { Link, usePathname } from "expo-router";
-import { Pressable, View } from "react-native";
+import { ArrowLeftRight, BadgeIndianRupee, EqualSquare } from 'lucide-react-native';
+import { Pressable, StyleSheet, View } from "react-native";
 
 const NAVIGATION = [
   {
-    label: "Calculator",
+    Icon: EqualSquare,
     href: "/",
   },
   {
-    label: "Converter",
+    Icon: ArrowLeftRight,
     href: "/converter",
+  },
+  {
+    Icon: BadgeIndianRupee,
+    href: "/exchange-rate",
   },
 ] as const;
 
@@ -17,27 +22,32 @@ export default function TabNavigation() {
 
   return (
     <View
-      style={{
-        flexDirection: "row",
-      }}>
-      {NAVIGATION.map(({ label, href }, index) => (
+      style={styles.container}>
+      {NAVIGATION.map(({ Icon, href }, index) => (
         <Pressable
           key={index}
-          style={{
-            flex: 1,
-          }}>
+          style={styles.button}>
           <Link
             href={href}
-            style={{
-              padding: 12,
-              textAlign: "center",
-              backgroundColor: "#111",
-              color: pathname === href ? "#0af" : "#ccc",
-            }}>
-            {label}
+            style={styles.link}>
+            <Icon color={pathname === href ? "#0af" : "#ccc"} />
           </Link>
         </Pressable>
       ))}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+  },
+  button: {
+    flex: 1,
+  },
+  link: {
+    padding: 12,
+    textAlign: "center",
+    backgroundColor: "#111",
+  },
+});

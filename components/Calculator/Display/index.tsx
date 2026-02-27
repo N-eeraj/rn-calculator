@@ -1,7 +1,7 @@
 import Input from "@components/Calculator/Display/Input";
 import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Display() {
   const {
@@ -12,23 +12,8 @@ export default function Display() {
   console.log(inputList);
 
   return (
-    <View
-      style={{
-        flex: 2,
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "flex-end",
-        padding: 12,
-        backgroundColor: "#111",
-      }}>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          flexWrap: "wrap",
-          columnGap: 4,
-        }}>
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
         {inputList.length ? (
           inputList.map((input, index) => (
             <Input
@@ -40,14 +25,32 @@ export default function Display() {
         )}
       </View>
       {hasResult && (
-        <Text
-          style={{
-            fontSize: 48,
-            color: "white",
-          }}>
+        <Text style={styles.result}>
           =&nbsp;{Intl.NumberFormat().format(result as number)}
         </Text>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 2,
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    padding: 12,
+    backgroundColor: "#111",
+  },
+  inputContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+    columnGap: 4,
+  },
+  result: {
+    fontSize: 48,
+    color: "white",
+  },
+});

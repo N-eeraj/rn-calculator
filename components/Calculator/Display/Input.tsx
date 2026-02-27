@@ -1,6 +1,6 @@
 import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
-import { Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 interface Props {
   value: string;
@@ -14,11 +14,19 @@ export default function Input({ value }: Props) {
   return (
     <Text
       numberOfLines={1}
-      style={{
-        fontSize: hasResult ? 24 : 32,
-        color: "white",
-      }}>
+      style={[
+        styles.input,
+        {
+          fontSize: hasResult ? 24 : 32,
+        },
+      ]}>
       {value}
     </Text>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    color: "white",
+  },
+});
