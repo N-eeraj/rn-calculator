@@ -1,4 +1,5 @@
 import Input from "@components/Calculator/Display/Input";
+import { COLORS } from "@constants/theme";
 import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "flex-end",
     padding: 12,
-    backgroundColor: "#111",
+    backgroundColor: COLORS.background,
   },
   inputContainer: {
     display: "flex",
@@ -51,6 +52,6 @@ const styles = StyleSheet.create({
   },
   result: {
     fontSize: 48,
-    color: "white",
+    color: COLORS.foreground,
   },
 });

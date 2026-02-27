@@ -1,3 +1,4 @@
+import { COLORS } from "@constants/theme";
 import { LucideProps } from "lucide-react-native";
 import { ForwardRefExoticComponent } from "react";
 import { Pressable, StyleSheet, Text, type PressableProps } from "react-native";
@@ -16,19 +17,19 @@ interface Props extends PressableProps {
 
 const VARIANT_STYLES = {
   [ButtonVariant.TEXT]: {
-    color: "white",
+    color: COLORS.foreground,
     backgroundColor: "transparent",
-    androidRippleColor: "#0af1",
+    androidRippleColor: COLORS.ripple.primary,
   },
   [ButtonVariant.TINTED]: {
-    color: "#0af",
+    color: COLORS.primary,
     backgroundColor: "transparent",
-    androidRippleColor: "#0af1",
+    androidRippleColor: COLORS.ripple.primary,
   },
   [ButtonVariant.SOLID]: {
-    color: "white",
-    backgroundColor: "#0af",
-    androidRippleColor: "#fff3",
+    color: COLORS.foreground,
+    backgroundColor: COLORS.primary,
+    androidRippleColor: COLORS.ripple.background,
   },
 } as const;
 

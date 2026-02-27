@@ -18,6 +18,9 @@
       "@contexts/*": [
         "./contexts/*",
       ],
+      "@constants/*": [
+        "./constants/*",
+      ],
     }
   },
   "include": [

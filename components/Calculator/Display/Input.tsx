@@ -1,3 +1,4 @@
+import { COLORS } from "@constants/theme";
 import { CalculatorContext } from "@contexts/Calculator";
 import { use } from "react";
 import { StyleSheet, Text } from "react-native";
@@ -27,6 +28,6 @@ export default function Input({ value }: Props) {
 
 const styles = StyleSheet.create({
   input: {
-    color: "white",
+    color: COLORS.foreground,
   },
 });

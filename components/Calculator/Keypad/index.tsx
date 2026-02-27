@@ -1,4 +1,5 @@
 import Button from "@components/Calculator/Keypad/Button";
+import { COLORS } from "@constants/theme";
 import useKeypadButtons from "@hooks/useKeypadButtons";
 import { StyleSheet, View } from "react-native";
 
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 3,
     display: "flex",
     gap: 4,
-    backgroundColor: "#171717",
+    backgroundColor: COLORS.surface,
   },
   row: {
     display: "flex",
