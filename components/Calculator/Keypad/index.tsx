@@ -31,12 +31,10 @@ export default function Keypad() {
 const styles = StyleSheet.create({
   container: {
     flex: 3,
-    display: "flex",
     gap: 4,
     backgroundColor: COLORS.surface,
   },
   row: {
-    display: "flex",
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-end",

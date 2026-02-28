@@ -73,7 +73,6 @@ export default function KeypadButton({
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 12,

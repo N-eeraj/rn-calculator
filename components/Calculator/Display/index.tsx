@@ -37,14 +37,12 @@ export default function Display() {
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    display: "flex",
     justifyContent: "flex-end",
     alignItems: "flex-end",
     padding: 12,
     backgroundColor: COLORS.background,
   },
   inputContainer: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
     flexWrap: "wrap",

@@ -1,38 +1,45 @@
-import TabNavigation from "@components/TabNavigation";
-import { Stack } from "expo-router";
-import { ExtendedStackNavigationOptions } from "expo-router/build/layouts/StackClient";
+import { COLORS } from "@constants/theme";
+import { Tabs } from "expo-router";
+import { ArrowLeftRight, BadgeIndianRupee, EqualSquare } from "lucide-react-native";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const converterOption = ({ navigation }: Record<"navigation", any>): ExtendedStackNavigationOptions => {
-  const state = navigation.getState();
-  const routes = state.routes;
-  const prevRouteName = routes[state.index - 1]?.name;
-
-  if (prevRouteName === "index") return { animation: "slide_from_right" };
-  if (prevRouteName === "exchange-rate") return { animation: "slide_from_left" };
-  return { animation: "default" };
-}
+const NAVIGATION = [
+  {
+    name: "index",
+    Icon: EqualSquare,
+  },
+  {
+    name: "converter",
+    Icon: ArrowLeftRight,
+  },
+  {
+    name: "exchange-rate",
+    Icon: BadgeIndianRupee,
+  },
+] as const;
 
 export default function Layout() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <TabNavigation />
-
-      <Stack
+      <Tabs
         screenOptions={{
+          tabBarPosition: "top",
           headerShown: false,
+          tabBarShowLabel: false,
+          tabBarStyle: styles.tabs,
+          tabBarIconStyle: styles.tabIcon,
+          animation: "shift",
         }}>
-        <Stack.Screen
-          name="index"
-          options={{ animation: "slide_from_left" }} />
-        <Stack.Screen
-          name="converter"
-          options={converterOption} />
-        <Stack.Screen
-          name="exchange-rate"
-          options={{ animation: "slide_from_right" }} />
-      </Stack>
+        {NAVIGATION.map(({ name, Icon }) => (
+          <Tabs.Screen
+            key={name}
+            name={name}
+            options={{
+              tabBarIcon: ({ focused }) => <Icon color={focused ? COLORS.primary : COLORS.inactive} />,
+            }} />
+        ))}
+      </Tabs>
     </SafeAreaView>
   );
 }
@@ -40,5 +47,13 @@ export default function Layout() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  tabs: {
+    paddingTop: 0,
+    backgroundColor: COLORS.background,
+    height: 48,
+  },
+  tabIcon: {
+    margin: "auto",
   },
 });
