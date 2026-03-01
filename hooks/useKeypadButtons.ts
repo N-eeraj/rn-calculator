@@ -1,6 +1,4 @@
-import { ButtonVariant } from "@components/Calculator/Keypad/Button";
 import { CalculatorContext } from "@contexts/Calculator";
-import { Delete, Divide, Equal, Minus, Percent, Plus, X } from 'lucide-react-native';
 import { use } from "react";
 
 function splitLastInput(inputList: Array<string>) {
@@ -206,114 +204,13 @@ export default function useKeypadButtons() {
     evaluateInput();
   };
 
-  const KEYPAD = [
-    [
-      {
-        text: "C",
-        variant: ButtonVariant.TINTED,
-        onPress: handleClearDisplay,
-      },
-      {
-        icon: Delete,
-        variant: ButtonVariant.TINTED,
-        onPress: handleDeletePress,
-      },
-      {
-        icon: Percent,
-        variant: ButtonVariant.TINTED,
-        onPress: handlePercentagePress,
-      },
-      {
-        icon: Divide,
-        variant: ButtonVariant.TINTED,
-        onPress: () => handleOperatorPress("÷"),
-      },
-    ],
-    [
-      {
-        text: "7",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("7"),
-      },
-      {
-        text: "8",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("8"),
-      },
-      {
-        text: "9",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("9"),
-      },
-      {
-        icon: X,
-        variant: ButtonVariant.TINTED,
-        onPress: () => handleOperatorPress("×"),
-      },
-    ],
-    [
-      {
-        text: "4",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("4"),
-      },
-      {
-        text: "5",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("5"),
-      },
-      {
-        text: "6",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("6"),
-      },
-      {
-        icon: Minus,
-        variant: ButtonVariant.TINTED,
-        onPress: () => handleOperatorPress("-"),
-      },
-    ],
-    [
-      {
-        text: "1",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("1"),
-      },
-      {
-        text: "2",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("2"),
-      },
-      {
-        text: "3",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("3"),
-      },
-      {
-        icon: Plus,
-        variant: ButtonVariant.TINTED,
-        onPress: () => handleOperatorPress("+"),
-      },
-    ],
-    [
-      undefined,
-      {
-        text: "0",
-        variant: ButtonVariant.TEXT,
-        onPress: () => handleValuePress("0"),
-      },
-      {
-        text: ".",
-        variant: ButtonVariant.TEXT,
-        onPress: handleDecimalPress,
-      },
-      {
-        icon: Equal,
-        variant: ButtonVariant.SOLID,
-        onPress: handleEquatePress,
-      },
-    ],
-  ] as const;
-
-  return KEYPAD;
+  return {
+    handleValuePress,
+    handleDecimalPress,
+    handleOperatorPress,
+    handleEquatePress,
+    handleClearDisplay,
+    handleDeletePress,
+    handlePercentagePress,
+  };
 }
