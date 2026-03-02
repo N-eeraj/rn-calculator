@@ -1,27 +1,14 @@
+import NAVIGATION from "@constants/navigation";
 import { COLORS } from "@constants/theme";
 import { Tabs } from "expo-router";
-import { BadgeIndianRupee, EqualSquare, LayoutDashboard } from "lucide-react-native";
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const NAVIGATION = [
-  {
-    name: "index",
-    Icon: EqualSquare,
-  },
-  {
-    name: "converter/menu",
-    Icon: LayoutDashboard,
-  },
-  {
-    name: "exchange-rate",
-    Icon: BadgeIndianRupee,
-  },
-] as const;
 
 export default function Layout() {
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar backgroundColor={COLORS.background} />
+
       <Tabs
         screenOptions={{
           tabBarPosition: "top",
@@ -51,7 +38,7 @@ const styles = StyleSheet.create({
   tabs: {
     paddingTop: 0,
     backgroundColor: COLORS.background,
-    height: 48,
+    height: 52,
   },
   tabIcon: {
     margin: "auto",

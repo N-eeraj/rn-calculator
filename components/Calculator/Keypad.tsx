@@ -1,6 +1,6 @@
-import { COLORS } from "@/constants/theme";
 import KeypadButton, { ButtonVariant } from "@components/Keypad/Button";
 import NumberKeypad from "@components/Keypad/Number";
+import { COLORS } from "@constants/theme";
 import useKeypadButtons from "@hooks/useKeypadButtons";
 import { Delete, Divide, Equal, Minus, Percent, Plus, X } from 'lucide-react-native';
 import { StyleSheet, View } from "react-native";

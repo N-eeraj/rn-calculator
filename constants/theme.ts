@@ -1,9 +1,9 @@
 export const COLORS = {
   primary: "#0af",
-  background: "#111",
+  background: "#070707",
   foreground: "#fff",
   inactive: "#ccc",
-  surface: "#171717",
+  surface: "#111",
   ripple: {
     primary: "#0af1",
     background: "#fff3",
