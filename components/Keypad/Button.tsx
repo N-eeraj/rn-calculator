@@ -37,7 +37,7 @@ export default function KeypadButton({
   text,
   icon: Icon,
   variant = ButtonVariant.TEXT,
-  onPress,
+  ...props
 }: Props) {
   return (
     <Pressable
@@ -51,7 +51,7 @@ export default function KeypadButton({
         color: VARIANT_STYLES[variant].androidRippleColor,
         foreground: true,
       }}
-      onPress={(event) => onPress?.(event)}>
+      {...props}>
       {text && (
       <Text
         style={[

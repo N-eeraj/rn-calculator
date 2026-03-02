@@ -1,6 +1,6 @@
 import { COLORS } from "@constants/theme";
 import { Tabs } from "expo-router";
-import { ArrowLeftRight, BadgeIndianRupee, EqualSquare } from "lucide-react-native";
+import { BadgeIndianRupee, EqualSquare, LayoutDashboard } from "lucide-react-native";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,8 +10,8 @@ const NAVIGATION = [
     Icon: EqualSquare,
   },
   {
-    name: "converter",
-    Icon: ArrowLeftRight,
+    name: "converter/menu",
+    Icon: LayoutDashboard,
   },
   {
     name: "exchange-rate",
