@@ -6,7 +6,7 @@ const NAVIGATION = [
     Icon: EqualSquare,
   },
   {
-    name: "converter/menu",
+    name: "converter",
     Icon: LayoutDashboard,
   },
   {
