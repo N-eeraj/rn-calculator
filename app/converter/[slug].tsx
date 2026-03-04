@@ -1,5 +1,7 @@
+import Header from "@components/Converter/Header";
+import { COLORS } from "@constants/theme";
 import { useRoute } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function Converter() {
   const {
@@ -7,12 +9,18 @@ export default function Converter() {
   } = useRoute();
 
   return (
-    <View>
-      <Text>
-        {params?.slug}
-      </Text>
+    <View style={styles.container}>
+      <Header />
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  text: {
+    color: COLORS.foreground,
+  },
+});
