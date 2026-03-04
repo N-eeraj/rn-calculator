@@ -1,16 +1,22 @@
 import { COLORS } from "@constants/theme";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack } from "expo-router";
 import { StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: styles.layoutContent,
-        }} />
+      <GestureHandlerRootView style={styles.container}>
+        <BottomSheetModalProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: styles.layoutContent,
+            }} />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </SafeAreaView>
   );
 }
@@ -21,6 +27,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   layoutContent: {
+    backgroundColor: COLORS.background,
+  },
+  container: {
+    position: "fixed",
+    flex: 1,
+    justifyContent: "center",
     backgroundColor: COLORS.background,
   },
 });
