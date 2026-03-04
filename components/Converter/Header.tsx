@@ -1,27 +1,15 @@
-import MEASUREMENT_TYPES from "@constants/measurementTypes";
 import { COLORS } from "@constants/theme";
-import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-interface RouteProps extends RouteProp<ParamListBase> {
-  params: {
-    slug: string;
-  }
+interface Props {
+  title: string;
 }
 
-export default function Header() {
-  const {
-    params,
-  } = useRoute<RouteProps>();
-
+export default function Header({ title }: Props) {
   const navigation = useNavigation();
   const handleBack = () => navigation.goBack();
-
-  const {
-    text: measurementName,
-  } = MEASUREMENT_TYPES.find(({ slug }) => slug === params.slug)!;
 
   return (
     <View style={styles.container}>
@@ -31,7 +19,7 @@ export default function Header() {
         <ArrowLeft color={COLORS.foreground} />
       </Pressable>
       <Text style={styles.titleText}>
-        {measurementName}
+        {title}
       </Text>
     </View>
   )
