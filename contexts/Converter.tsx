@@ -15,8 +15,8 @@ export interface ConverterContextType {
   fistValue: number | string;
   secondUnit?: string | number;
   secondValue: number | string;
-  firstUnitItem?: UnitData;
-  secondUnitItem?: UnitData;
+  firstUnitItem: UnitData;
+  secondUnitItem: UnitData;
   selectFirst: boolean;
   setFirstUnit: React.Dispatch<React.SetStateAction<number>>;
   setFistValue: React.Dispatch<React.SetStateAction<number>>;
@@ -30,6 +30,14 @@ export const ConverterContext = createContext<ConverterContextType>({
   fistValue: 0,
   secondValue: 0,
   selectFirst: true,
+  firstUnitItem: {
+    name: "",
+    symbol: "",
+  },
+  secondUnitItem: {
+    name: "",
+    symbol: "",
+  },
   setFirstUnit: () => {},
   setFistValue: () => {},
   setSecondUnit: () => {},
