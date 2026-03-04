@@ -6,7 +6,7 @@ export interface MeasurementTypes {
   text: string;
   icon: ForwardRefExoticComponent<LucideProps>;
   units: Record<string, UnitData>;
-  converter: Function;
+  convert: Function;
 }
 
 export interface UnitData {

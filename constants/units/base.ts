@@ -1,39 +1,39 @@
 import { UnitData } from "@/types";
 
-enum BASE {
+enum Base {
   BINARY,
   OCTAL,
   DECIMAL,
   HEXADECIMAL,
 }
 
-export const BASE_UNITS: Record<BASE, UnitData> = {
-  [BASE.BINARY]: {
+export const BASE_UNITS: Record<Base, UnitData> = {
+  [Base.BINARY]: {
     name: "Binary",
-    symbol: "bin",
+    symbol: "BIN",
   },
-  [BASE.OCTAL]: {
+  [Base.OCTAL]: {
     name: "Octal",
-    symbol: "oct",
+    symbol: "OCT",
   },
-  [BASE.DECIMAL]: {
+  [Base.DECIMAL]: {
     name: "Decimal",
-    symbol: "dec",
+    symbol: "DEC",
   },
-  [BASE.HEXADECIMAL]: {
+  [Base.HEXADECIMAL]: {
     name: "Hexadecimal",
-    symbol: "hex",
+    symbol: "HEX",
   },
 };
 
-const BASE_VALUES: Record<BASE, number> = {
-  [BASE.BINARY]: 2,
-  [BASE.OCTAL]: 8,
-  [BASE.DECIMAL]: 10,
-  [BASE.HEXADECIMAL]: 16,
+const BASE_VALUES: Record<Base, number> = {
+  [Base.BINARY]: 2,
+  [Base.OCTAL]: 8,
+  [Base.DECIMAL]: 10,
+  [Base.HEXADECIMAL]: 16,
 };
 
-export function convertBase(value: string, from: BASE, to: BASE): string {
+export function convertBase(from: Base, to: Base, value: string): string {
   if (from === to) return value;
   const decimalValue = parseInt(value, BASE_VALUES[from]);
   return decimalValue.toString(BASE_VALUES[to]);

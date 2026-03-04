@@ -1,13 +1,16 @@
+import { ConverterContext } from "@/contexts/Converter";
 import { COLORS } from "@constants/theme";
 import { useNavigation } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
+import { use } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-interface Props {
-  title: string;
-}
 
-export default function Header({ title }: Props) {
+export default function Header() {
+  const {
+    measurementType,
+  } = use(ConverterContext);
+
   const navigation = useNavigation();
   const handleBack = () => navigation.goBack();
 
@@ -19,7 +22,7 @@ export default function Header({ title }: Props) {
         <ArrowLeft color={COLORS.foreground} />
       </Pressable>
       <Text style={styles.titleText}>
-        {title}
+        {measurementType.text}
       </Text>
     </View>
   )
