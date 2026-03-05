@@ -32,7 +32,9 @@ export default function DisplayItem({ name, symbol, isActive, value, onSelect }:
         <Text style={styles.unitSymbol}>
           {symbol}
         </Text>
-        <ChevronDown size={16} />
+        <ChevronDown
+          size={16}
+          color={COLORS.foreground} />
       </Pressable>
 
       <UnitSelection

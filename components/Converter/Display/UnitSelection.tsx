@@ -17,7 +17,9 @@ export default function UnitSelection({ ref, onCancel }: Props) {
     <>
       <BottomSheetModal
         ref={ref}
-        index={0}>
+        index={0}
+        handleStyle={styles.handle}
+        handleIndicatorStyle={styles.handleIndicator}>
         <BottomSheetView style={styles.sheetView}>
           <Text style={styles.title}>
             Select Unit
@@ -47,15 +49,24 @@ export default function UnitSelection({ ref, onCancel }: Props) {
 }
 
 const styles = StyleSheet.create({
+  handle: {
+    height: 0,
+    backgroundColor: COLORS.background,
+  },
+  handleIndicator: {
+    backgroundColor: COLORS.inactive,
+  },
   sheetView: {
     flex: 1,
     rowGap: 20,
     padding: 16,
+    backgroundColor: COLORS.background,
   },
   title: {
     textAlign: "center",
     fontSize: 18,
     fontWeight: 500,
+    color: COLORS.foreground,
   },
   unitItemButton: {
     paddingHorizontal: 10,
@@ -64,6 +75,7 @@ const styles = StyleSheet.create({
   unitItemText: {
     fontSize: 18,
     fontWeight: 600,
+    color: COLORS.foreground,
   },
   cancelButton: {
     justifyContent: "center",
@@ -74,6 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   cancelText: {
+    color: COLORS.foreground,
     opacity: 0.75,
   },
 });
