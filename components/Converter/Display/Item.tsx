@@ -1,24 +1,30 @@
+import UnitSelection from "@components/Converter/Display/UnitSelection";
 import { COLORS } from "@constants/theme";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ChevronDown } from "lucide-react-native";
 import { useCallback, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import UnitSelection from "./UnitSelection";
 
 interface Props {
   symbol: string;
   name: string;
   value: number | string;
   isActive: boolean;
-  onSelect: () => void;
+  onUnitSelect: (unit: number) => void;
+  onValueSelect: () => void;
 }
 
-export default function DisplayItem({ name, symbol, isActive, value, onSelect }: Props) {
+export default function DisplayItem({ name, symbol, isActive, value, onUnitSelect, onValueSelect }: Props) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleSelect = (selection: number) => {
+    onUnitSelect(selection);
+    handleCloseModalPress();
+  };
 
   const handleCloseModalPress = useCallback(() => {
     bottomSheetModalRef.current?.close();
@@ -39,11 +45,12 @@ export default function DisplayItem({ name, symbol, isActive, value, onSelect }:
 
       <UnitSelection
         ref={bottomSheetModalRef}
+        onSelect={handleSelect}
         onCancel={handleCloseModalPress} />
 
       <Pressable
         style={styles.value}
-        onPress={onSelect}>
+        onPress={onValueSelect}>
         <Text style={[styles.value, isActive && styles.activeValue]}>
           {value}
         </Text>
@@ -51,7 +58,7 @@ export default function DisplayItem({ name, symbol, isActive, value, onSelect }:
 
       <Pressable
         style={styles.unitName}
-        onPress={onSelect}>
+        onPress={onValueSelect}>
         <Text style={styles.unitName}>
           {name}
         </Text>

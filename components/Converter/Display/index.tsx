@@ -12,6 +12,8 @@ export default function Display() {
     secondValue,
     selectFirst,
     setSelectFirst,
+    setFirstUnit,
+    setSecondUnit,
   } = use(ConverterContext);
 
   return (
@@ -20,13 +22,15 @@ export default function Display() {
         { ...firstUnitItem }
         isActive={selectFirst}
         value={fistValue}
-        onSelect={() => setSelectFirst(true)} />
+        onUnitSelect={setFirstUnit}
+        onValueSelect={() => setSelectFirst(true)} />
 
       <DisplayItem
         { ...secondUnitItem }
         isActive={!selectFirst}
         value={secondValue}
-        onSelect={() => setSelectFirst(false)} />
+        onUnitSelect={setSecondUnit}
+        onValueSelect={() => setSelectFirst(false)} />
     </View>
   );
 }

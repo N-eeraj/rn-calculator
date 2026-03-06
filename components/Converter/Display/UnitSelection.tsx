@@ -6,10 +6,11 @@ import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-
 
 interface Props {
   ref: ForwardedRef<BottomSheetModal<any>>;
+  onSelect: (unit: number) => void;
   onCancel: (event: GestureResponderEvent) => void;
 }
 
-export default function UnitSelection({ ref, onCancel }: Props) {
+export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
   const {
     measurementType,
   } = use(ConverterContext);
@@ -25,10 +26,11 @@ export default function UnitSelection({ ref, onCancel }: Props) {
             Select Unit
           </Text>
           <View>
-            {Object.entries(measurementType.units ?? {}).map(([key, { name, symbol }]) => (
+            {Object.entries(measurementType.units ?? {}).map(([unit, { name, symbol }]) => (
               <Pressable
-                key={key}
-                style={styles.unitItemButton}>
+                key={unit}
+                style={styles.unitItemButton}
+                onPress={() => onSelect(+unit)}>
                 <Text style={styles.unitItemText}>
                   {name} {symbol}
                 </Text>
