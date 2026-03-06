@@ -2,12 +2,12 @@ import { ConverterContext } from "@/contexts/Converter";
 import { COLORS } from "@constants/theme";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { ForwardedRef, use } from "react";
-import { GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
   ref: ForwardedRef<BottomSheetModal<any>>;
   onSelect: (unit: number) => void;
-  onCancel: (event: GestureResponderEvent) => void;
+  onCancel: () => void;
 }
 
 export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
@@ -20,7 +20,8 @@ export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
         ref={ref}
         index={0}
         handleStyle={styles.handle}
-        handleIndicatorStyle={styles.handleIndicator}>
+        handleIndicatorStyle={styles.handleIndicator}
+        onDismiss={onCancel}>
         <BottomSheetView style={styles.sheetView}>
           <Text style={styles.title}>
             Select Unit

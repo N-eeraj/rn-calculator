@@ -1,6 +1,6 @@
 import { COLORS } from "@constants/theme";
 import { LucideProps } from "lucide-react-native";
-import { ForwardRefExoticComponent } from "react";
+import { ComponentProps, ForwardRefExoticComponent } from "react";
 import { Pressable, StyleSheet, Text, type PressableProps } from "react-native";
 
 export enum ButtonVariant {
@@ -12,7 +12,9 @@ export enum ButtonVariant {
 interface Props extends PressableProps {
   text?: string;
   icon?: ForwardRefExoticComponent<LucideProps>;
+  iconProps?: Omit<ComponentProps<ForwardRefExoticComponent<LucideProps>>, "color">,
   variant?: ButtonVariant;
+  noAndroidRipple?: boolean;
 }
 
 const VARIANT_STYLES = {
@@ -36,7 +38,9 @@ const VARIANT_STYLES = {
 export default function KeypadButton({
   text,
   icon: Icon,
+  iconProps,
   variant = ButtonVariant.TEXT,
+  noAndroidRipple,
   ...props
 }: Props) {
   return (
@@ -48,8 +52,12 @@ export default function KeypadButton({
         },
       ]}
       android_ripple={{
-        color: VARIANT_STYLES[variant].androidRippleColor,
-        foreground: true,
+        ...(
+          noAndroidRipple ? {} : {
+            color: VARIANT_STYLES[variant].androidRippleColor,
+            foreground: true,
+          }
+        )
       }}
       {...props}>
       {text && (
@@ -64,7 +72,9 @@ export default function KeypadButton({
       </Text>
       )}
       {Icon && (
-        <Icon color={VARIANT_STYLES[variant].color} />
+        <Icon
+          color={VARIANT_STYLES[variant].color}
+          {...iconProps} />
       )}
     </Pressable>
   );

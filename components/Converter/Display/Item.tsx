@@ -2,7 +2,7 @@ import UnitSelection from "@components/Converter/Display/UnitSelection";
 import { COLORS } from "@constants/theme";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ChevronDown } from "lucide-react-native";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -15,10 +15,17 @@ interface Props {
 }
 
 export default function DisplayItem({ name, symbol, isActive, value, onUnitSelect, onValueSelect }: Props) {
+  const [isUnitSelectionOpen, setIsUnitSelectionOpen] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
+    setIsUnitSelectionOpen(true);
+  }, []);
+
+  const handleCloseModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.close();
+    setIsUnitSelectionOpen(false);
   }, []);
 
   const handleSelect = (selection: number) => {
@@ -26,21 +33,20 @@ export default function DisplayItem({ name, symbol, isActive, value, onUnitSelec
     handleCloseModalPress();
   };
 
-  const handleCloseModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.close();
-  }, []);
-
   return (
     <View style={styles.itemContainer}>
       <Pressable
         style={styles.unitContainer}
         onPress={handlePresentModalPress}>
-        <Text style={styles.unitSymbol}>
+        <Text style={[
+          styles.unitSymbol,
+          isUnitSelectionOpen && styles.activeUnitSelection,
+        ]}>
           {symbol}
         </Text>
         <ChevronDown
           size={16}
-          color={COLORS.foreground} />
+          color={COLORS[isUnitSelectionOpen ? "primary" : "foreground"]} />
       </Pressable>
 
       <UnitSelection
@@ -84,6 +90,9 @@ const styles = StyleSheet.create({
   unitSymbol: {
     color: COLORS.foreground,
     fontSize: 20,
+  },
+  activeUnitSelection: {
+    color: COLORS.primary,
   },
   value: {
     fontSize: 32,
