@@ -29,8 +29,15 @@ export default function useKeypad() {
 
       let input: string | number = `${prev}${key}`;
 
-      // prevent leading zero
-      if (key !== "." && !String(prev).includes(".")) {
+      // prevent leading zero for hexadecimals
+      if (isBaseHexUnit) {
+        if (prev == 0) return key;
+      }
+      // format to prevent leading zero for other numbers
+      else if (
+        key !== "." // allow trailing decimal
+        && !String(prev).includes(".") // allow trailing zeros after decimal
+      ) {
         input = +input;
       }
 
@@ -58,6 +65,8 @@ export default function useKeypad() {
   )!;
 
   let disabledKeys: Array<Key | string> = Array.from({ length: 6 }).map((_, i) => String.fromCharCode(65 + i));
+  const isBaseHexUnit = activeUnit === Base.HEXADECIMAL;
+
   if (isBaseMeasurement) {
     switch (activeUnit) {
       // allow only 0 and 1
@@ -79,6 +88,7 @@ export default function useKeypad() {
   return {
     isBaseMeasurement,
     disabledKeys,
+    isBaseHexUnit,
     handleInput,
     handleClear,
     handleDelete,
