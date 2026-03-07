@@ -1,3 +1,4 @@
+import useKeypad from "@/hooks/converter/useKeypad";
 import KeypadButton, { ButtonVariant } from "@components/Keypad/Button";
 import NumberKeypad from "@components/Keypad/Number";
 import { COLORS } from "@constants/theme";
@@ -5,18 +6,25 @@ import { Delete } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 
 export default function Keypad() {
+  const {
+    handleInput,
+    handleClear,
+    handleDelete,
+  } = useKeypad();
+
   return (
     <View style={styles.container}>
       <NumberKeypad
         style={styles.numbers}
-        onNumberPress={(num) => alert(num)}
-        onDecimalPress={() => alert(".")} />
+        onNumberPress={handleInput}
+        onDecimalPress={() => handleInput(".")} />
       <View style={styles.actionsContainer}>
         <KeypadButton
           text="AC"
           variant={ButtonVariant.TINTED}
           noAndroidRipple
-          style={styles.actionButton} />
+          style={styles.actionButton}
+          onPress={handleClear} />
         <KeypadButton
           icon={Delete}
           variant={ButtonVariant.TINTED}
@@ -24,7 +32,8 @@ export default function Keypad() {
           iconProps={{
             size: 30,
           }}
-          style={styles.actionButton} />
+          style={styles.actionButton}
+          onPress={handleDelete} />
       </View>
     </View>
   );

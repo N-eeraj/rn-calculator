@@ -19,9 +19,9 @@ export interface ConverterContextType {
   secondUnitItem: UnitData;
   selectFirst: boolean;
   setFirstUnit: React.Dispatch<React.SetStateAction<number>>;
-  setFistValue: React.Dispatch<React.SetStateAction<number>>;
+  setFistValue: React.Dispatch<React.SetStateAction<number | string>>;
   setSecondUnit: React.Dispatch<React.SetStateAction<number>>;
-  setSecondValue: React.Dispatch<React.SetStateAction<number>>;
+  setSecondValue: React.Dispatch<React.SetStateAction<number | string>>;
   setSelectFirst: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

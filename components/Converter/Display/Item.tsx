@@ -1,8 +1,7 @@
 import UnitSelection from "@components/Converter/Display/UnitSelection";
 import { COLORS } from "@constants/theme";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import useDisplay from "@hooks/converter/useDisplay";
 import { ChevronDown } from "lucide-react-native";
-import { useCallback, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -15,23 +14,13 @@ interface Props {
 }
 
 export default function DisplayItem({ name, symbol, isActive, value, onUnitSelect, onValueSelect }: Props) {
-  const [isUnitSelectionOpen, setIsUnitSelectionOpen] = useState(false);
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-    setIsUnitSelectionOpen(true);
-  }, []);
-
-  const handleCloseModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.close();
-    setIsUnitSelectionOpen(false);
-  }, []);
-
-  const handleSelect = (selection: number) => {
-    onUnitSelect(selection);
-    handleCloseModalPress();
-  };
+  const {
+    bottomSheetModalRef,
+    isUnitSelectionOpen,
+    handlePresentModalPress,
+    handleCloseModalPress,
+    handleUnitSelect,
+  } = useDisplay(onUnitSelect);
 
   return (
     <View style={styles.itemContainer}>
@@ -51,7 +40,7 @@ export default function DisplayItem({ name, symbol, isActive, value, onUnitSelec
 
       <UnitSelection
         ref={bottomSheetModalRef}
-        onSelect={handleSelect}
+        onSelect={handleUnitSelect}
         onCancel={handleCloseModalPress} />
 
       <Pressable

@@ -116,6 +116,9 @@ export default function useKeypadButtons() {
       remainingItems,
     } = splitLastInput(inputList);
 
+    // prevent duplicate decimals for each input
+    if (lastValue?.includes(".")) return;
+
     // set 0. as input
     if (!lastValue) {
       setInputList(["0."]);
