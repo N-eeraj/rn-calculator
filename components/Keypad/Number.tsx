@@ -8,12 +8,24 @@ const KEYPAD = [
   [null, "0", "."],
 ] as const;
 
+export type Key = NonNullable<typeof KEYPAD[number][number]>;
+
 interface Props extends ViewProps {
-  onNumberPress?: (_key: NonNullable<typeof KEYPAD[number][number]>) => void;
+  hideDecimal?: boolean;
+  disabledKeys?: Array<Key>;
+  onNumberPress?: (_key: Key) => void;
   onDecimalPress?: () => void;
 }
 
-export default function Keypad({ onNumberPress, onDecimalPress, style, ...props}: Props) {
+export default function Keypad({
+  hideDecimal,
+  disabledKeys = [],
+  onNumberPress,
+  onDecimalPress,
+  style,
+  ...props
+}: Props) {
+
   return (
     <View
       style={[
@@ -26,13 +38,14 @@ export default function Keypad({ onNumberPress, onDecimalPress, style, ...props}
           key={index}
           style={styles.row}>
           {row.map((key) => (
-            key === null
+            (key === null || (key === "." && hideDecimal))
               ? <View
                   key={key}
                   style={styles.blank} />
               : <KeypadButton
                   key={key}
                   text={key}
+                  disabled={disabledKeys.includes(String(key) as Key)}
                   onPress={() => key === "." ? onDecimalPress?.() : onNumberPress?.(key)} />
           ))}
         </View>

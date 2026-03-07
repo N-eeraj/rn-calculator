@@ -1,6 +1,6 @@
 import { UnitData } from "@/types";
 
-enum Base {
+export enum Base {
   BINARY,
   OCTAL,
   DECIMAL,

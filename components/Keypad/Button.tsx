@@ -40,11 +40,13 @@ export default function KeypadButton({
   icon: Icon,
   iconProps,
   variant = ButtonVariant.TEXT,
+  disabled,
   noAndroidRipple,
   ...props
 }: Props) {
   return (
     <Pressable
+      disabled={disabled}
       style={[
         styles.button,
         {
@@ -67,6 +69,7 @@ export default function KeypadButton({
           {
             color: VARIANT_STYLES[variant].color,
           },
+          disabled && styles.disabled,
         ]}>
         {text}
       </Text>
@@ -74,7 +77,11 @@ export default function KeypadButton({
       {Icon && (
         <Icon
           color={VARIANT_STYLES[variant].color}
-          {...iconProps} />
+          {...iconProps}
+          style={[
+            iconProps?.style,
+            disabled && styles.disabled,
+          ]} />
       )}
     </Pressable>
   );
@@ -92,5 +99,8 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 28,
     textAlign: "center",
+  },
+  disabled: {
+    filter: "brightness(0.4)",
   },
 });

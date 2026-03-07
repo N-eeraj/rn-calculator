@@ -1,5 +1,5 @@
 import KeypadButton, { ButtonVariant } from "@components/Keypad/Button";
-import NumberKeypad from "@components/Keypad/Number";
+import NumberKeypad, { type Key } from "@components/Keypad/Number";
 import { COLORS } from "@constants/theme";
 import useKeypad from "@hooks/converter/useKeypad";
 import { Delete } from "lucide-react-native";
@@ -7,6 +7,8 @@ import { StyleSheet, View } from "react-native";
 
 export default function Keypad() {
   const {
+    isBaseMeasurement,
+    disabledKeys,
     handleInput,
     handleClear,
     handleDelete,
@@ -15,6 +17,8 @@ export default function Keypad() {
   return (
     <View style={styles.container}>
       <NumberKeypad
+        hideDecimal={isBaseMeasurement}
+        disabledKeys={disabledKeys as Array<Key>}
         style={styles.numbers}
         onNumberPress={handleInput}
         onDecimalPress={() => handleInput(".")} />
