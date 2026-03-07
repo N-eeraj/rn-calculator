@@ -1,5 +1,6 @@
 import { UnitData } from "@/types";
 import MEASUREMENT_TYPES from "@constants/measurementTypes";
+import { Base } from "@constants/units/base";
 import { ParamListBase, RouteProp, useRoute } from "@react-navigation/native";
 import { createContext, useEffect, useState, type PropsWithChildren } from "react";
 
@@ -45,6 +46,28 @@ export const ConverterContext = createContext<ConverterContextType>({
   setSelectFirst: () => {},
 });
 
+function getConvertedValue(
+  conversionFunction: typeof MEASUREMENT_TYPES[number]["convert"],
+  fromUnit: number | string,
+  toUnit: number | string,
+  input: string | number,
+  isNotBase: boolean,
+) {
+  // @ts-ignore
+  let output: string | number = String(conversionFunction(+fromUnit, +toUnit, input))
+    .toUpperCase();
+
+  if (isNotBase || +toUnit !== Base.HEXADECIMAL) {
+    output = +Intl.NumberFormat(undefined, {
+      maximumFractionDigits: 2,
+      useGrouping: false,
+    })
+    .format(+output);
+  }
+
+  return output
+}
+
 export default function ConverterContextProvider({ children }: PropsWithChildren) {
   const {
     params,
@@ -53,11 +76,11 @@ export default function ConverterContextProvider({ children }: PropsWithChildren
   const units = Object.keys(measurementType.units);
 
   const [firstUnit, setFirstUnit] = useState(units[0]);
-  const [firstValue, setFirstValue] = useState(0);
+  const [firstValue, setFirstValue] = useState<string | number>(0);
 
   const [secondUnit, setSecondUnit] = useState(units[1]);
   // @ts-ignore
-  const [secondValue, setSecondValue] = useState(measurementType.convert(+firstUnit, +secondUnit, 0));
+  const [secondValue, setSecondValue] = useState<string | number>(+measurementType.convert(firstUnit, +secondUnit, 0));
 
   // @ts-ignore
   const firstUnitItem = measurementType.units[firstUnit];
@@ -68,8 +91,14 @@ export default function ConverterContextProvider({ children }: PropsWithChildren
 
   useEffect(() => {
     if (!selectFirst) return;
-    // @ts-ignore
-    setSecondValue(measurementType.convert(+firstUnit, +secondUnit, firstValue));
+    const value = getConvertedValue(
+      measurementType.convert,
+      firstUnit,
+      secondUnit,
+      firstValue,
+      measurementType.slug !== "base"
+    );
+    setSecondValue(value);
   }, [
     firstValue,
     firstUnit,
@@ -78,8 +107,14 @@ export default function ConverterContextProvider({ children }: PropsWithChildren
 
   useEffect(() => {
     if (selectFirst) return;
-    // @ts-ignore
-    setFirstValue(measurementType.convert(+secondUnit, +firstUnit, secondValue));
+    const value = getConvertedValue(
+      measurementType.convert,
+      secondUnit,
+      firstUnit,
+      secondValue,
+      measurementType.slug !== "base"
+    );
+    setFirstValue(value);
   }, [
     secondValue,
     firstUnit,

@@ -46,7 +46,11 @@ export default function DisplayItem({ name, symbol, isActive, value, onUnitSelec
       <Pressable
         style={styles.value}
         onPress={onValueSelect}>
-        <Text style={[styles.value, isActive && styles.activeValue]}>
+        <Text style={[
+          styles.value,
+          isActive && styles.activeValue,
+          `${value}`.length > 13 && styles.longerValue,
+        ]}>
           {value}
         </Text>
       </Pressable>
@@ -88,6 +92,9 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "right",
     color: COLORS.foreground,
+  },
+  longerValue: {
+    fontSize: 24,
   },
   activeValue: {
     color: COLORS.primary,

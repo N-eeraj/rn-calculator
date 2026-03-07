@@ -19,6 +19,9 @@ export default function useKeypad() {
 
   const handleInput = (key: string) => {
     setValue((prev) => {
+      // limit input to 10 digits
+      if (`${prev}`.length > 9) return prev;
+
       // prevent duplicate decimals and leading zeros
       if (
         (key === "." && String(prev).includes("."))
