@@ -1,5 +1,5 @@
-import { ConverterContext } from "@/contexts/Converter";
 import { COLORS } from "@constants/theme";
+import { ConverterContext } from "@contexts/Converter";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { ForwardedRef, use } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";

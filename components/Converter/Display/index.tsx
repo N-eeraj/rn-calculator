@@ -1,6 +1,6 @@
-import { ConverterContext } from "@/contexts/Converter";
 import DisplayItem from "@components/Converter/Display/Item";
 import { COLORS } from "@constants/theme";
+import { ConverterContext } from "@contexts/Converter";
 import { use } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -8,7 +8,7 @@ export default function Display() {
   const {
     firstUnitItem,
     secondUnitItem,
-    fistValue,
+    firstValue,
     secondValue,
     selectFirst,
     setSelectFirst,
@@ -21,7 +21,7 @@ export default function Display() {
       <DisplayItem
         { ...firstUnitItem }
         isActive={selectFirst}
-        value={fistValue}
+        value={firstValue}
         onUnitSelect={setFirstUnit}
         onValueSelect={() => setSelectFirst(true)} />
 

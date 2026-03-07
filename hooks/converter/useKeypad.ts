@@ -1,19 +1,19 @@
-import { ConverterContext } from "@/contexts/Converter";
+import { ConverterContext } from "@contexts/Converter";
 import { use } from "react";
 
 export default function useKeypad() {
   const {
     selectFirst,
-    setFistValue,
+    setFirstValue,
     setSecondValue,
-  } = use(ConverterContext)
+  } = use(ConverterContext);
 
-  const updateFunction = selectFirst
-    ? setFistValue
+  const setValue = selectFirst
+    ? setFirstValue
     : setSecondValue;
 
   const handleInput = (key: string) => {
-    updateFunction((prev) => {
+    setValue((prev) => {
       // prevent duplicate decimals and leading zeros
       if (
         (key === "." && String(prev).includes("."))
@@ -34,11 +34,11 @@ export default function useKeypad() {
   };
 
   const handleClear = () => {
-    updateFunction(0);
+    setValue(0);
   };
 
   const handleDelete = () => {
-    updateFunction((prev) => {
+    setValue((prev) => {
       if (String(prev).length === 1) return 0;
       return String(prev).slice(0, -1);
     });

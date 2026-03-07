@@ -1,4 +1,4 @@
-import { ConverterContext } from "@/contexts/Converter";
+import { ConverterContext } from "@contexts/Converter";
 import { COLORS } from "@constants/theme";
 import { useNavigation } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
