@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   disabled: {
-    filter: "brightness(0.4)",
+    opacity: 0.2,
   },
 });

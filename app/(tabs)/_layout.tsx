@@ -15,6 +15,7 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarStyle: styles.tabs,
           tabBarIconStyle: styles.tabIcon,
+          sceneStyle: styles.screen,
           animation: "shift",
         }}>
         {NAVIGATION.map(({ name, Icon }) => (
@@ -35,8 +36,12 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     backgroundColor: COLORS.background,
     height: 52,
+    borderColor: COLORS.background,
   },
   tabIcon: {
     margin: "auto",
+  },
+  screen: {
+    backgroundColor: COLORS.background,
   },
 });

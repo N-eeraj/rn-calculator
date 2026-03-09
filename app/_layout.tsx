@@ -27,10 +27,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   layoutContent: {
+    flex: 1,
     backgroundColor: COLORS.background,
   },
   container: {
-    position: "fixed",
     flex: 1,
     justifyContent: "center",
     backgroundColor: COLORS.background,
