@@ -2,7 +2,8 @@ import { COLORS } from "@constants/theme";
 import { ConverterContext } from "@contexts/Converter";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { ForwardedRef, use } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Props {
   ref: ForwardedRef<BottomSheetModal<any>>;
@@ -14,6 +15,8 @@ export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
   const {
     measurementType,
   } = use(ConverterContext);
+  const units = Object.entries(measurementType.units ?? {});
+
   return (
     <>
       <BottomSheetModal
@@ -26,8 +29,8 @@ export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
           <Text style={styles.title}>
             Select Unit
           </Text>
-          <View>
-            {Object.entries(measurementType.units ?? {}).map(([unit, { name, symbol }]) => (
+          <ScrollView style={styles.scrollView}>
+            {units.map(([unit, { name, symbol }]) => (
               <Pressable
                 key={unit}
                 style={styles.unitItemButton}
@@ -37,7 +40,7 @@ export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
                 </Text>
               </Pressable>
             ))}
-          </View>
+          </ScrollView>
           <Pressable
             style={styles.cancelButton}
             onPress={onCancel}>
@@ -64,6 +67,9 @@ const styles = StyleSheet.create({
     rowGap: 20,
     padding: 16,
     backgroundColor: COLORS.background,
+  },
+  scrollView: {
+    maxHeight: 360,
   },
   title: {
     textAlign: "center",
