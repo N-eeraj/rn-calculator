@@ -1,6 +1,6 @@
-import { ConverterContext } from "@/contexts/Converter";
 import Selection from "@components/Selection";
 import { COLORS } from "@constants/theme";
+import { ConverterContext } from "@contexts/Converter";
 import { use } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -66,20 +66,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexWrap: "wrap",
-  },
-  unitContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    columnGap: 4,
-    paddingRight: 12,
-    paddingVertical: 12,
-  },
-  unitSymbol: {
-    color: COLORS.foreground,
-    fontSize: 20,
-  },
-  activeUnitSelection: {
-    color: COLORS.primary,
   },
   value: {
     fontSize: 32,

@@ -3,16 +3,44 @@ import { fetchCurrencies, fetchExchangeRate } from "@/utils/exchangeRates";
 import { createContext, type PropsWithChildren, useEffect, useState } from "react";
 
 export interface ExchangeRateContextType {
+  currencies: Array<CurrencyItem>;
+  primaryCurrency?: CurrencyItem["code"];
+  primaryValue: number | string;
+  secondaryCurrency?: CurrencyItem["code"];
+  secondaryValue: number | string;
+  isPrimaryActive: boolean;
+  setPrimaryCurrency: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setPrimaryValue: React.Dispatch<React.SetStateAction<number | string>>;
+  setSecondaryCurrency: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSecondaryValue: React.Dispatch<React.SetStateAction<number | string>>;
+  setIsPrimaryActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ExchangeRateContext = createContext<ExchangeRateContextType>({
+  currencies: [],
+  primaryCurrency: undefined,
+  primaryValue: 0,
+  secondaryCurrency: undefined,
+  secondaryValue: 0,
+  isPrimaryActive: true,
+  setPrimaryCurrency: () => {},
+  setPrimaryValue: () => {},
+  setSecondaryCurrency: () => {},
+  setSecondaryValue: () => {},
+  setIsPrimaryActive: () => {},
 });
 
 export default function ExchangeRateContextProvider({ children }: PropsWithChildren) {
   const [currencies, setCurrencies] = useState<Array<CurrencyItem>>([]);
   const [exchangeRates, setExchangeRates] = useState<Record<CurrencyItem["code"], Rates>>({});
+
   const [primaryCurrency, setPrimaryCurrency] = useState<CurrencyItem["code"]>();
+  const [primaryValue, setPrimaryValue] = useState<number | string>(0);
+
   const [secondaryCurrency, setSecondaryCurrency] = useState<CurrencyItem["code"]>();
+  const [secondaryValue, setSecondaryValue] = useState<number | string>(0);
+
+  const [isPrimaryActive, setIsPrimaryActive] = useState(true);
 
   // fetch currencies list on initial mount
   useEffect(() => {
@@ -78,10 +106,17 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
   ]);
 
   const values = {
+    currencies,
     primaryCurrency,
+    primaryValue,
     secondaryCurrency,
+    secondaryValue,
+    isPrimaryActive,
     setPrimaryCurrency,
+    setPrimaryValue,
     setSecondaryCurrency,
+    setSecondaryValue,
+    setIsPrimaryActive,
   };
 
   return (
