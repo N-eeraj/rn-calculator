@@ -13,3 +13,11 @@ export interface UnitData {
   name: string;
   symbol: string;
 }
+
+export interface CurrencyItem {
+  code: string;
+  name: string;
+}
+export interface Rates {
+  [key: CurrencyItem["code"]]: number;
+}

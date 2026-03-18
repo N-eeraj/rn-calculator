@@ -18,7 +18,7 @@ export const CalculatorContext = createContext<CalculatorContextType>({
   evaluateInput: () => {},
 });
 
-export default function ContextProvider({ children }: PropsWithChildren) {
+export default function CalculatorContextProvider({ children }: PropsWithChildren) {
   const [inputList, setInputList] = useState<CalculatorContextType["inputList"]>([]);
   const [result, setResult] = useState<CalculatorContextType["result"]>(null);
 
