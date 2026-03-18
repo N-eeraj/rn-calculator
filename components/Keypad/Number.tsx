@@ -13,7 +13,7 @@ export type Key = NonNullable<typeof KEYPAD[number][number]>;
 interface Props extends ViewProps {
   hideDecimal?: boolean;
   disabledKeys?: Array<Key>;
-  onNumberPress?: (_key: Key) => void;
+  onNumberPress?: (key: Key) => void;
   onDecimalPress?: () => void;
 }
 

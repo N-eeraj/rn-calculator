@@ -1,21 +1,24 @@
 import { COLORS } from "@constants/theme";
 import { ConverterContext } from "@contexts/Converter";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { ForwardedRef, use } from "react";
+import { ForwardedRef, type Key, use } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-interface Props {
+interface Props<T extends number | string> {
   ref: ForwardedRef<BottomSheetModal<any>>;
-  onSelect: (unit: number) => void;
+  items: Array<{
+    label: string;
+    value: T;
+  }>;
+  onSelect: (selection: T) => void;
   onCancel: () => void;
 }
 
-export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
+export default function UnitSelection<T extends number | string>({ ref, items, onSelect, onCancel }: Props<T>) {
   const {
     measurementType,
   } = use(ConverterContext);
-  const units = Object.entries(measurementType.units ?? {});
 
   return (
     <>
@@ -30,13 +33,13 @@ export default function UnitSelection({ ref, onSelect, onCancel }: Props) {
             Select Unit
           </Text>
           <ScrollView style={styles.scrollView}>
-            {units.map(([unit, { name, symbol }]) => (
+            {items.map(({ label, value }) => (
               <Pressable
-                key={unit}
-                style={styles.unitItemButton}
-                onPress={() => onSelect(+unit)}>
-                <Text style={styles.unitItemText}>
-                  {name} {symbol}
+                key={value as Key}
+                style={styles.itemButton}
+                onPress={() => onSelect(value)}>
+                <Text style={styles.itemText}>
+                  {label}
                 </Text>
               </Pressable>
             ))}
@@ -77,11 +80,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     color: COLORS.foreground,
   },
-  unitItemButton: {
+  itemButton: {
     paddingHorizontal: 10,
     paddingVertical: 16,
   },
-  unitItemText: {
+  itemText: {
     fontSize: 18,
     fontWeight: 600,
     color: COLORS.foreground,

@@ -10,6 +10,8 @@ export default function Display() {
     secondUnitItem,
     firstValue,
     secondValue,
+    firstUnit,
+    secondUnit,
     selectFirst,
     setSelectFirst,
     setFirstUnit,
@@ -22,6 +24,7 @@ export default function Display() {
         { ...firstUnitItem }
         isActive={selectFirst}
         value={firstValue}
+        unit={firstUnit as string | number}
         onUnitSelect={setFirstUnit}
         onValueSelect={() => setSelectFirst(true)} />
 
@@ -29,6 +32,7 @@ export default function Display() {
         { ...secondUnitItem }
         isActive={!selectFirst}
         value={secondValue}
+        unit={secondUnit as string | number}
         onUnitSelect={setSecondUnit}
         onValueSelect={() => setSelectFirst(false)} />
     </View>

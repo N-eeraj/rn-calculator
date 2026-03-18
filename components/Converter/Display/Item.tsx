@@ -1,47 +1,41 @@
-import UnitSelection from "@components/Converter/Display/UnitSelection";
+import { ConverterContext } from "@/contexts/Converter";
+import Selection from "@components/Selection";
 import { COLORS } from "@constants/theme";
-import useDisplay from "@hooks/converter/useDisplay";
-import { ChevronDown } from "lucide-react-native";
+import { use } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
   symbol: string;
   name: string;
   value: number | string;
+  unit: number | string;
   isActive: boolean;
   onUnitSelect: (unit: number) => void;
   onValueSelect: () => void;
 }
 
-export default function DisplayItem({ name, symbol, isActive, value, onUnitSelect, onValueSelect }: Props) {
+export default function DisplayItem({ name, isActive, value, unit, onUnitSelect, onValueSelect }: Props) {
   const {
-    bottomSheetModalRef,
-    isUnitSelectionOpen,
-    handlePresentModalPress,
-    handleCloseModalPress,
-    handleUnitSelect,
-  } = useDisplay(onUnitSelect);
+    measurementType,
+  } = use(ConverterContext);
+  const units = Object.entries(measurementType.units ?? {})
+    .map(([value, { name, symbol }]) => ({
+      value,
+      label: `${name} (${symbol})`,
+      name,
+      symbol,
+    }));
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable
-        style={styles.unitContainer}
-        onPress={handlePresentModalPress}>
-        <Text style={[
-          styles.unitSymbol,
-          isUnitSelectionOpen && styles.activeUnitSelection,
-        ]}>
-          {symbol}
-        </Text>
-        <ChevronDown
-          size={16}
-          color={COLORS[isUnitSelectionOpen ? "primary" : "foreground"]} />
-      </Pressable>
-
-      <UnitSelection
-        ref={bottomSheetModalRef}
-        onSelect={handleUnitSelect}
-        onCancel={handleCloseModalPress} />
+      <Selection
+        // @ts-ignore
+        value={unit}
+        // @ts-ignore
+        items={units}
+        // @ts-ignore
+        selectedItemRender={(item) => item.symbol}
+        onSelect={onUnitSelect} />
 
       <Pressable
         style={styles.value}
@@ -104,9 +98,5 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: COLORS.inactive,
     fontSize: 12,
-  },
-  bottomSheetView: {
-    height: 500,
-    padding: 24,
   },
 });
