@@ -13,11 +13,13 @@ interface Props<T extends number | string> {
   value: T;
   selectedItemRender?: (item: Item<T>) => ReactNode;
   items: Array<Item<T>>;
+  selectionLabel: string;
   onSelect: (item: T) => void;
 }
 
 export default function Selection<T extends number | string>({
   value,
+  selectionLabel,
   items,
   selectedItemRender,
   onSelect,
@@ -55,6 +57,7 @@ export default function Selection<T extends number | string>({
       <BottomSheet
         ref={bottomSheetModalRef}
         items={items}
+        label={selectionLabel}
         onSelect={handleSelect}
         onCancel={handleCloseModalPress} />
     </>

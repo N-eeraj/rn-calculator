@@ -20,7 +20,8 @@ export default function Display() {
   const currencyList = currencies.map(({ code, name }) => ({
     value: code,
     label: name,
-  }));
+  }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   return (
     <>

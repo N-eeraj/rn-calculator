@@ -51,7 +51,8 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
           .map((code) => ({
             code,
             name: currencies[code],
-          }));
+          }))
+          .filter(({ name }) => name);
         setCurrencies(currenciesList);
       } catch (error) {
         console.error(error);

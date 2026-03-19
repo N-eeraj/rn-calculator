@@ -33,6 +33,7 @@ export default function DisplayItem({ name, isActive, value, unit, onUnitSelect,
         value={unit}
         // @ts-ignore
         items={units}
+        selectionLabel="Select Unit"
         // @ts-ignore
         selectedItemRender={(item) => item.symbol}
         onSelect={onUnitSelect} />

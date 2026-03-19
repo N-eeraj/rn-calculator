@@ -1,7 +1,6 @@
 import { COLORS } from "@constants/theme";
-import { ConverterContext } from "@contexts/Converter";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { ForwardedRef, type Key, use } from "react";
+import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { ForwardedRef, useCallback, type Key } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -11,14 +10,28 @@ interface Props<T extends number | string> {
     label: string;
     value: T;
   }>;
+  label?: string;
   onSelect: (selection: T) => void;
   onCancel: () => void;
 }
 
-export default function UnitSelection<T extends number | string>({ ref, items, onSelect, onCancel }: Props<T>) {
-  const {
-    measurementType,
-  } = use(ConverterContext);
+export default function UnitSelection<T extends number | string>({
+  ref,
+  items,
+  label,
+  onSelect,
+  onCancel,
+}: Props<T>) {
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        pressBehavior="close" />
+    ),
+    []
+  );
 
   return (
     <>
@@ -27,11 +40,14 @@ export default function UnitSelection<T extends number | string>({ ref, items, o
         index={0}
         handleStyle={styles.handle}
         handleIndicatorStyle={styles.handleIndicator}
+        backdropComponent={renderBackdrop}
         onDismiss={onCancel}>
         <BottomSheetView style={styles.sheetView}>
-          <Text style={styles.title}>
-            Select Unit
-          </Text>
+          {label && (
+            <Text style={styles.title}>
+              {label}
+            </Text>
+          )}
           <ScrollView style={styles.scrollView}>
             {items.map(({ label, value }) => (
               <Pressable

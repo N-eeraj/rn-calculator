@@ -15,15 +15,24 @@ interface Props {
   onTogglePrimary: () => void;
 }
 
-export default function DisplayItem({ currency, value, currencies, isActive, setCurrency, onTogglePrimary }: Props) {
+export default function DisplayItem({
+  currency,
+  value,
+  currencies,
+  isActive,
+  setCurrency,
+  onTogglePrimary,
+}: Props) {
   return (
     <View style={styles.itemContainer}>
-        <Selection
-          // @ts-ignore
-          value={currency}
-          items={currencies}
-          // @ts-ignore
-          onSelect={setCurrency} />
+      <Selection
+        // @ts-ignore
+        value={currency}
+        items={currencies}
+        selectionLabel="Select Currency"
+        selectedItemRender={({ value }) => value.toUpperCase()}
+        // @ts-ignore
+        onSelect={setCurrency} />
 
       <Pressable
         style={styles.value}
