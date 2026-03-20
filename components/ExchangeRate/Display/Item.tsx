@@ -1,5 +1,7 @@
+import { COLORS } from "@/constants/theme";
 import { CurrencyItem } from "@/types";
 import ConversionDisplayItem from "@components/ConversionDisplayItem";
+import { StyleSheet, Text, View } from "react-native";
 
 interface Props {
   currency: CurrencyItem["code"];
@@ -9,6 +11,7 @@ interface Props {
     label: CurrencyItem["name"];
   }>;
   isActive: boolean;
+  isLoading?: boolean;
   setCurrency: (selection: CurrencyItem["code"]) => void;
   onTogglePrimary: () => void;
 }
@@ -18,6 +21,7 @@ export default function DisplayItem({
   value,
   currencies,
   isActive,
+  isLoading = false,
   setCurrency,
   onTogglePrimary,
 }: Props) {
@@ -36,6 +40,28 @@ export default function DisplayItem({
         // @ts-ignore
         onSelect: setCurrency,
       }}
+      loadingState={
+        isLoading
+          ? (
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>
+                Loading Exchange Rates
+              </Text>
+            </View>
+          )
+          : undefined
+      }
       onItemClick={onTogglePrimary} />
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    minHeight: 68,
+    justifyContent: "center",
+  },
+  loadingText: {
+    color: COLORS.inactive,
+    fontSize: 12,
+  },
+})

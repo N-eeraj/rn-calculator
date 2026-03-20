@@ -9,6 +9,8 @@ export interface ExchangeRateContextType {
   secondaryCurrency?: CurrencyItem["code"];
   secondaryValue: number | string;
   isPrimaryActive: boolean;
+  isFetchingCurrencies: boolean;
+  fetchingExchangeRate?: CurrencyItem["code"] | null;
   setPrimaryCurrency: React.Dispatch<React.SetStateAction<string | undefined>>;
   setPrimaryValue: React.Dispatch<React.SetStateAction<number | string>>;
   setSecondaryCurrency: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -23,6 +25,8 @@ export const ExchangeRateContext = createContext<ExchangeRateContextType>({
   secondaryCurrency: undefined,
   secondaryValue: 0,
   isPrimaryActive: true,
+  isFetchingCurrencies: false,
+  fetchingExchangeRate: undefined,
   setPrimaryCurrency: () => {},
   setPrimaryValue: () => {},
   setSecondaryCurrency: () => {},
@@ -33,6 +37,8 @@ export const ExchangeRateContext = createContext<ExchangeRateContextType>({
 export default function ExchangeRateContextProvider({ children }: PropsWithChildren) {
   const [currencies, setCurrencies] = useState<Array<CurrencyItem>>([]);
   const [exchangeRates, setExchangeRates] = useState<Record<CurrencyItem["code"], Rates>>({});
+  const [isFetchingCurrencies, setIsFetchingCurrencies] = useState(false);
+  const [fetchingExchangeRate, setFetchingExchangeRate] = useState<CurrencyItem["code"] | null>();
 
   const [primaryCurrency, setPrimaryCurrency] = useState<CurrencyItem["code"]>();
   const [primaryValue, setPrimaryValue] = useState<number | string>(0);
@@ -46,7 +52,9 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
   useEffect(() => {
     const setCurrencyData = async () => {
       try {
+        setIsFetchingCurrencies(true);
         const currencies = await fetchCurrencies();
+        setIsFetchingCurrencies(false);
         const currenciesList = Object.keys(currencies)
           .map((code) => ({
             code,
@@ -90,8 +98,10 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
     ) return;
     const setExchangeRatesData = async () => {
       try {
+        setFetchingExchangeRate(activeCurrency);
         const exchangeRates = await fetchExchangeRate(activeCurrency);
-        console.log(exchangeRates)
+        setFetchingExchangeRate(null);
+        console.log("Fetched exchange rates for", activeCurrency)
         setExchangeRates((prev) => {
           return {
             ...prev,
@@ -151,6 +161,8 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
     secondaryCurrency,
     secondaryValue,
     isPrimaryActive,
+    isFetchingCurrencies,
+    fetchingExchangeRate,
     setPrimaryCurrency,
     setPrimaryValue,
     setSecondaryCurrency,

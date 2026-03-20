@@ -1,6 +1,6 @@
 import Selection from "@components/Selection";
 import { COLORS } from "@constants/theme";
-import { type ComponentProps } from "react";
+import { type ComponentProps, type ReactElement } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   label?: string;
   isActive: boolean;
   selectionProps: ComponentProps<typeof Selection>;
+  loadingState?: ReactElement;
   onItemClick: () => void;
 }
 
@@ -16,34 +17,41 @@ export default function ConversionDisplayItem({
   label,
   isActive,
   selectionProps,
+  loadingState,
   onItemClick,
 }: Props) {
   return (
     <View style={styles.itemContainer}>
-      <Selection
-        {...selectionProps} />
+      <Selection {...selectionProps} />
 
-      <Pressable
-        style={styles.value}
-        onPress={onItemClick}>
-        <Text style={[
-          styles.value,
-          isActive && styles.activeValue,
-          `${value}`.length > 13 && styles.longerValue,
-        ]}>
-          {value}
-        </Text>
-      </Pressable>
+      {loadingState
+        ? loadingState
+        : (
+          <>
+            <Pressable
+              style={styles.value}
+              onPress={onItemClick}>
+              <Text style={[
+                styles.value,
+                isActive && styles.activeValue,
+                `${value}`.length > 13 && styles.longerValue,
+              ]}>
+                {value}
+              </Text>
+            </Pressable>
 
-      {label && (
-        <Pressable
-          style={styles.name}
-          onPress={onItemClick}>
-          <Text style={styles.name}>
-            {label}
-          </Text>
-        </Pressable>
-      )}
+            {label && (
+              <Pressable
+                style={styles.name}
+                onPress={onItemClick}>
+                <Text style={styles.name}>
+                  {label}
+                </Text>
+              </Pressable>
+            )}
+          </>
+        )
+      }
     </View>
   );
 }
