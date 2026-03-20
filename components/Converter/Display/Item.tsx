@@ -1,8 +1,6 @@
-import Selection from "@components/Selection";
-import { COLORS } from "@constants/theme";
+import ConversionDisplayItem from "@components/ConversionDisplayItem";
 import { ConverterContext } from "@contexts/Converter";
 import { use } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
   symbol: string;
@@ -27,63 +25,19 @@ export default function DisplayItem({ name, isActive, value, unit, onUnitSelect,
     }));
 
   return (
-    <View style={styles.itemContainer}>
-      <Selection
+    <ConversionDisplayItem
+      value={value}
+      label={name}
+      isActive={isActive}
+      selectionProps={{
+        value: unit,
+        items: units,
+        selectionLabel: "Select Unit",
         // @ts-ignore
-        value={unit}
+        selectedItemRender: (item) => item.symbol,
         // @ts-ignore
-        items={units}
-        selectionLabel="Select Unit"
-        // @ts-ignore
-        selectedItemRender={(item) => item.symbol}
-        onSelect={onUnitSelect} />
-
-      <Pressable
-        style={styles.value}
-        onPress={onValueSelect}>
-        <Text style={[
-          styles.value,
-          isActive && styles.activeValue,
-          `${value}`.length > 13 && styles.longerValue,
-        ]}>
-          {value}
-        </Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.unitName}
-        onPress={onValueSelect}>
-        <Text style={styles.unitName}>
-          {name}
-        </Text>
-      </Pressable>
-    </View>
+        onSelect: onUnitSelect,
+      }}
+      onItemClick={onValueSelect} />
   );
 }
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  value: {
-    fontSize: 32,
-    flex: 1,
-    textAlign: "right",
-    color: COLORS.foreground,
-  },
-  longerValue: {
-    fontSize: 24,
-  },
-  activeValue: {
-    color: COLORS.primary,
-  },
-  unitName: {
-    width: "100%",
-    textAlign: "right",
-    color: COLORS.inactive,
-    fontSize: 12,
-  },
-});

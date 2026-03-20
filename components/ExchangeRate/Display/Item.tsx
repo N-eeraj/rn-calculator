@@ -1,7 +1,5 @@
 import { CurrencyItem } from "@/types";
-import Selection from "@components/Selection";
-import { COLORS } from "@constants/theme";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import ConversionDisplayItem from "@components/ConversionDisplayItem";
 
 interface Props {
   currency: CurrencyItem["code"];
@@ -26,62 +24,18 @@ export default function DisplayItem({
   const selectedCurrency = currencies.find(({ value }) => value === currency);
 
   return (
-    <View style={styles.itemContainer}>
-      <Selection
+    <ConversionDisplayItem
+      value={value}
+      label={selectedCurrency?.label}
+      isActive={isActive}
+      selectionProps={{
+        value: currency,
+        items: currencies,
+        selectionLabel: "Select Currency",
+        selectedItemRender: ({ value }) => String(value).toUpperCase(),
         // @ts-ignore
-        value={currency}
-        items={currencies}
-        selectionLabel="Select Currency"
-        selectedItemRender={({ value }) => value.toUpperCase()}
-        // @ts-ignore
-        onSelect={setCurrency} />
-
-      <Pressable
-        style={styles.value}
-        onPress={onTogglePrimary}>
-        <Text style={[
-          styles.value,
-          isActive && styles.activeValue,
-          `${value}`.length > 13 && styles.longerValue,
-        ]}>
-          {value}
-        </Text>
-      </Pressable>
-
-      <Pressable
-        style={styles.currencyName}
-        onPress={onTogglePrimary}>
-        <Text style={styles.currencyName}>
-          {selectedCurrency?.label}
-        </Text>
-      </Pressable>
-    </View>
+        onSelect: setCurrency,
+      }}
+      onItemClick={onTogglePrimary} />
   );
 }
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  value: {
-    fontSize: 32,
-    flex: 1,
-    textAlign: "right",
-    color: COLORS.foreground,
-  },
-  longerValue: {
-    fontSize: 24,
-  },
-  activeValue: {
-    color: COLORS.primary,
-  },
-  currencyName: {
-    width: "100%",
-    textAlign: "right",
-    color: COLORS.inactive,
-    fontSize: 12,
-  },
-});
