@@ -23,6 +23,8 @@ export default function DisplayItem({
   setCurrency,
   onTogglePrimary,
 }: Props) {
+  const selectedCurrency = currencies.find(({ value }) => value === currency);
+
   return (
     <View style={styles.itemContainer}>
       <Selection
@@ -40,8 +42,17 @@ export default function DisplayItem({
         <Text style={[
           styles.value,
           isActive && styles.activeValue,
+          `${value}`.length > 13 && styles.longerValue,
         ]}>
           {value}
+        </Text>
+      </Pressable>
+
+      <Pressable
+        style={styles.currencyName}
+        onPress={onTogglePrimary}>
+        <Text style={styles.currencyName}>
+          {selectedCurrency?.label}
         </Text>
       </Pressable>
     </View>
@@ -61,10 +72,13 @@ const styles = StyleSheet.create({
     textAlign: "right",
     color: COLORS.foreground,
   },
+  longerValue: {
+    fontSize: 24,
+  },
   activeValue: {
     color: COLORS.primary,
   },
-  unitName: {
+  currencyName: {
     width: "100%",
     textAlign: "right",
     color: COLORS.inactive,
