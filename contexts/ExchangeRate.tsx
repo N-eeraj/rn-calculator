@@ -81,19 +81,21 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
 
   // fetch and update currency rates on primary currency change
   useEffect(() => {
+    const activeCurrency = isPrimaryActive ? primaryCurrency : secondaryCurrency;
+
     // prevent unwanted fetching if already fetched
     if (
-      !primaryCurrency
-      || exchangeRates.hasOwnProperty(primaryCurrency)
+      !activeCurrency
+      || exchangeRates.hasOwnProperty(activeCurrency)
     ) return;
     const setExchangeRatesData = async () => {
       try {
-        const exchangeRates = await fetchExchangeRate(primaryCurrency);
+        const exchangeRates = await fetchExchangeRate(activeCurrency);
         console.log(exchangeRates)
         setExchangeRates((prev) => {
           return {
             ...prev,
-            [primaryCurrency]: exchangeRates,
+            [activeCurrency]: exchangeRates,
           };
         });
       } catch(error) {
@@ -103,7 +105,43 @@ export default function ExchangeRateContextProvider({ children }: PropsWithChild
 
     setExchangeRatesData();
   }, [
+    isPrimaryActive,
     primaryCurrency,
+    secondaryCurrency,
+  ]);
+
+  // update values on changes
+  useEffect(() => {
+    let source, sourceCurrency, targetCurrency, setTarget;
+    if (isPrimaryActive) {
+      source = primaryValue;
+      sourceCurrency = primaryCurrency;
+      targetCurrency = secondaryCurrency;
+      setTarget = setSecondaryValue;
+    } else {
+      source = secondaryValue;
+      sourceCurrency = secondaryCurrency;
+      targetCurrency = primaryCurrency;
+      setTarget = setPrimaryValue;
+    }
+    console.log({source, sourceCurrency, targetCurrency})
+
+    if (!(sourceCurrency && targetCurrency)) return;
+    const rate = exchangeRates?.[sourceCurrency]?.[targetCurrency] ?? 0;
+    console.log(rate);
+
+    const value = +Intl.NumberFormat(undefined, {
+      maximumFractionDigits: 4,
+      useGrouping: false,
+    }).format(+source * rate);
+    setTarget(value);
+  }, [
+    isPrimaryActive,
+    primaryValue,
+    secondaryValue,
+    primaryCurrency,
+    secondaryCurrency,
+    exchangeRates,
   ]);
 
   const values = {
